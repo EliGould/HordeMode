@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a91ead4f35ecf4b4b85a21ffbf596135, type: 3}
+  m_Name: Blood
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 1444522616314164, guid: 000428b0b9f240c48a4344199134c119, type: 2}
+  loop: 1
+  settings:
+    decayTime: 1
+    useUnscaledTime: 0
+  spawn:
+    inheritParentRotation: 0
+  sounds:
+    duringPlay: []
+    onDecay: []
+  oneOffSettings:
+    duration: 2

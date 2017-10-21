@@ -40,7 +40,7 @@ public sealed class TestDetachPart : SafeBehaviour
 				if(bodyPart != null)
 				{
 					bodyPart.Detach();
-					bodyPart.rigid.AddExplosionForce(force, hitInfo.point, 1.0f);
+					bodyPart.rigid.AddExplosionForce(force, hitInfo.collider.transform.position, 1.0f);
 				}
 			}
 		}

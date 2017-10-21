@@ -35,6 +35,11 @@ public sealed partial class Unit : UnitBase
 		{
 			var rend = parts.renderers[i];
 
+			if(def.texture != null)
+			{
+				rend.material.mainTexture = def.texture;
+			}
+
 			Bounds rendBounds = rend.bounds;
 
 			Transform rootBone = rend.rootBone;
@@ -62,6 +67,11 @@ public sealed partial class Unit : UnitBase
 			bodyPart.visualRootBone = rend.rootBone;
 
 			bodyPart.rend = copyBone.GetComponent<SkinnedMeshRenderer>();
+
+			if(def.texture != null)
+			{
+				bodyPart.rend.material.mainTexture = def.texture;
+			}
 
 			Transform rootBone = bodyPart.rend.rootBone;
 			bodyPart.coll = rootBone.GetComponent<BoxCollider>();

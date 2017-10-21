@@ -31,6 +31,8 @@ public sealed partial class UnitDefinition : ScriptableObject
 	#region Serialized Fields
 #pragma warning disable 0649
 	[SerializeField]
+	public Texture2D texture;
+	[SerializeField]
 	public GoreData goreData;
 	[SerializeField]
 	public MoveData moveData;
