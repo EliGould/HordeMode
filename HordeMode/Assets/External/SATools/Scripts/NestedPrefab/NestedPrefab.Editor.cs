@@ -150,6 +150,19 @@ public partial class NestedPrefab : MonoBehaviour,
 	}
 	#endregion // ISerializationCallbackReceiver
 
+	public static void EditorRespawnAll()
+	{
+		using(var prefabs = TempList<NestedPrefab>.Get())
+		{
+			EditorHelper.FindSceneObjects(prefabs.buffer);
+			for(int i = 0; i < prefabs.Count; i++)
+			{
+				NestedPrefab pf = prefabs[i];
+				pf.Respawn();
+			}
+		}
+	}
+
 	IEnumerator EditorAwakeRoutine()
 	{
 		yield return null;

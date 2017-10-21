@@ -1,7 +1,9 @@
 ﻿#if UNITY_EDITOR
 using UnityEngine;
 using UE = UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,6 +15,27 @@ public static class EditorHelper
 	{
 		object[] attributes = fieldInfo.GetCustomAttributes(typeof(TooltipAttribute), inherit: true);
 		return attributes.Length == 0 ? defaultValue : ((TooltipAttribute)attributes[0]).tooltip;
+	}
+
+	public static void FindSceneObjects<T>(List<T> results, Scene? scene = null) where T : Component
+	{
+		scene = scene ?? EditorSceneManager.GetActiveScene();
+
+		using(var roots = TempList<GameObject>.Get())
+		using(var tempResults = TempList<T>.Get())
+		{
+			scene.Value.GetRootGameObjects(roots.buffer);
+
+			for(int i = 0; i < roots.Count; i++)
+			{
+				GameObject go = roots[i];
+				go.GetComponentsInChildren<T>(
+					includeInactive: true,
+					results: tempResults.buffer
+				);
+				results.AddRange(tempResults.buffer);
+			}
+		}
 	}
 
 	#region Serialized Property

@@ -42,6 +42,11 @@ public sealed class NestedPrefabWindow : EditorWindowBase
 	protected override void Draw()
 	{
 		NestedPrefab.editorSelectionAllowed = EditorGUILayout.Toggle("Selection Allowed", NestedPrefab.editorSelectionAllowed);
+
+		if(GUILayout.Button("Respawn All"))
+		{
+			NestedPrefab.EditorRespawnAll();
+		}
 	}
 	#endregion // Methods
 }
