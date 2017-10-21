@@ -234,7 +234,7 @@ public partial class NestedPrefab : MonoBehaviour,
 	#region Editor
 	[CustomEditor(typeof(NestedPrefab))]
 	[CanEditMultipleObjects]
-	class Editor : UnityEditor.Editor
+	protected class Editor : UnityEditor.Editor
 	{
 		public override void OnInspectorGUI()
 		{
@@ -250,6 +250,11 @@ public partial class NestedPrefab : MonoBehaviour,
 
 				if(!EditorUtility.IsPersistent(nested) && nested.prefab != null && nested.instantiated != null)
 				{
+					if(GUILayout.Button("Respawn", GUILayout.Width(100.0f)))
+					{
+						nested.Respawn();
+					}
+
 					if(GUILayout.Button("Revert", GUILayout.Width(100.0f)))
 					{
 						nested.EditorRevertLocalChanges();

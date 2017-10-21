@@ -5,7 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public sealed class NestedModel : NestedPrefab
+public sealed partial class NestedModel : NestedPrefab
 {
 	#region Types
 	#region Serialized Types
