@@ -4,7 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public sealed partial class Unit : SafeBehaviour
+public sealed partial class Unit : UnitBase
 {
 	#region Types
 	#region Serialized Types

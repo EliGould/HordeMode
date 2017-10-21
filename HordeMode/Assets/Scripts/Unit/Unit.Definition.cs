@@ -10,6 +10,11 @@ public sealed partial class UnitDefinition : ScriptableObject
 	#region Serialized Types
 #pragma warning disable 0649
 	[Serializable]
+	public class GoreData
+	{
+	}
+
+	[Serializable]
 	public class MoveData
 	{
 	}
@@ -25,6 +30,8 @@ public sealed partial class UnitDefinition : ScriptableObject
 	#region Fields
 	#region Serialized Fields
 #pragma warning disable 0649
+	[SerializeField]
+	public GoreData goreData;
 	[SerializeField]
 	public MoveData moveData;
 	[SerializeField]
@@ -43,7 +50,7 @@ public sealed partial class UnitDefinition : ScriptableObject
 	#endregion // Methods
 }
 
-public sealed partial class Unit : SafeBehaviour
+public sealed partial class Unit : UnitBase
 {
 	#region Types
 	#region Serialized Types
@@ -61,6 +68,11 @@ public sealed partial class Unit : SafeBehaviour
 	// (i.e. other components that it needs to know about)
 	public sealed partial class Parts
 	{
+		public NestedModel visual;
+		[NonSerialized]
+		public List<SkinnedMeshRenderer> renderers = new List<SkinnedMeshRenderer>();
+		[NonSerialized]
+		public List<BodyPart> bodyParts = new List<BodyPart>();
 	}
 	#endregion // Types
 

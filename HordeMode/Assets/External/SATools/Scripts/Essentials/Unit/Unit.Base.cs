@@ -4,7 +4,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public sealed partial class Unit : SafeBehaviour
+public abstract class UnitBase : SafeBehaviour
+{
+	#region Overrides
+	protected virtual void AtPreRegister() {}
+	protected virtual void AtPostRegister() { }
+
+	protected virtual void AtPreUnregister() {}
+	protected virtual void AtPostUnregister() { }
+	#endregion // Overrides
+}
+
+public sealed partial class Unit : UnitBase
 {
 	#region Types
 	#region Serialized Types
@@ -34,12 +45,16 @@ public sealed partial class Unit : SafeBehaviour
 	{
 		parts.quirks = new List<UnitQuirk>();
 
+		AtPreRegister();
 		UnitManager.Register(this);
+		AtPostRegister();
 	}
 
 	protected override void AtShutdown()
 	{
+		AtPreUnregister();
 		UnitManager.Unregister(this);
+		AtPostUnregister();
 	}
 	#endregion // Mono
 
