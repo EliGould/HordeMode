@@ -166,7 +166,7 @@ public partial class NestedPrefab : MonoBehaviour,
 			yield break;
 		}
 
-		Awake();
+		Respawn();
 	}
 
 	void EditorRevertLocalChanges()

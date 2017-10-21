@@ -56,6 +56,29 @@ public partial class NestedPrefab : MonoBehaviour
 	}
 	#endregion // Mono
 
+	[ContextMenu("Respawn")]
+	public void Respawn()
+	{
+		if(instantiated != null)
+		{
+#if UNITY_EDITOR
+			if(EditorApplication.isPlaying)
+			{
+				Destroy(instantiated);
+			}
+			else
+			{
+				DestroyImmediate(instantiated);
+			}
+#else
+			Destroy(instantiated);
+#endif // UNITY_EDITOR
+			instantiated = null;
+		}
+
+		Spawn();
+	}
+
 	// Spawn breakdown:
 	// - Move to top of NestedPrefab hierarchy
 	// - Enqueue top node
