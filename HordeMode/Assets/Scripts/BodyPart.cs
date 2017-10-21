@@ -14,16 +14,21 @@ public sealed class BodyPart : MonoBehaviour
 	#endregion // Types
 
 	#region Fields
-	#region Serialized Fields
-#pragma warning disable 0649
-#pragma warning restore 0649
-	#endregion // Serialized Fields
+	public Rigidbody rigid;
+	public SkinnedMeshRenderer rend;
+	public Transform rootBone;
+	public BoxCollider coll;
 
-	Rigidbody rigid;
+	public Vector3 origPos;
+	public Quaternion origRot;
+
+	public SkinnedMeshRenderer visualRend;
+	public Transform visualRootBone;
+	public Collider visualColl;
 	#endregion // Fields
 
 	#region Properties
-	public new SkinnedMeshRenderer renderer
+	public bool isAttached
 	{
 		get;
 		private set;
@@ -31,36 +36,42 @@ public sealed class BodyPart : MonoBehaviour
 	#endregion // Properties
 
 	#region Methods
-	protected void Awake()
-	{
-		renderer = GetComponent<SkinnedMeshRenderer>();
-		Dbg.LogWarnIf(renderer == null, this, "{0} did not have SkinnedMeshRenderer", this);
-
-		if(renderer == null) { return; }
-
-		//renderer.rootBone.parent = transform;
-		rigid = renderer.rootBone.gameObject.AddComponent<Rigidbody>();
-		rigid.useGravity = false;
-
-		renderer.rootBone.parent = transform.parent;
-
-		Bounds rendBounds = renderer.localBounds;
-		var collider = rigid.gameObject.AddComponent<BoxCollider>();
-		collider.center = rendBounds.center;
-		collider.size = rendBounds.size;
-
-		//renderer.enabled = false;
-	}
-
 	public void Attach()
 	{
-		if(rigid == null) { return; }
+		if(isAttached) { return; }
+
+		isAttached = true;
+
+		coll.enabled = false;
+
+		rigid.isKinematic = true;
+		rigid.velocity = rigid.angularVelocity = Vector3.zero;
+
+		rend.enabled = false;
+
+		rootBone.localPosition = origPos;
+		rootBone.localRotation = origRot;
+
+		visualColl.enabled = true;
+		visualRend.enabled = true;
 	}
 
 	public void Detach()
 	{
-		if(rigid == null) { return; }
+		if(!isAttached) { return; }
 
+		isAttached = false;
+
+		coll.enabled = true;
+
+		rootBone.position = visualRootBone.position;
+		rootBone.rotation = visualRootBone.rotation;
+
+		rigid.isKinematic = false;
+		rend.enabled = true;
+
+		visualColl.enabled = false;
+		visualRend.enabled = false;
 	}
 	#endregion // Methods
 }

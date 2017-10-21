@@ -4,7 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public sealed partial class UnitManager : UnitManagerBase
+public sealed class TestDetachPart : SafeBehaviour
 {
 	#region Types
 	#region Serialized Types
@@ -16,6 +16,8 @@ public sealed partial class UnitManager : UnitManagerBase
 	#region Fields
 	#region Serialized Fields
 #pragma warning disable 0649
+	[SerializeField]
+	float force = 100.0f;
 #pragma warning restore 0649
 	#endregion // Serialized Fields
 	#endregion // Fields
@@ -24,32 +26,24 @@ public sealed partial class UnitManager : UnitManagerBase
 	#endregion // Properties
 
 	#region Methods
-	#region Interface
-	#endregion // Interface
-
-	public void SystemUpdate()
+	protected void Update()
 	{
-		for(int i = 0; i < allUnits.Count; i++)
+		if(!App.isSetup) { return; }
+
+		if(Input.GetMouseButtonDown(0))
 		{
-			Unit unit = allUnits[i];
-			if(unit.isActiveAndEnabled)
+			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			RaycastHit hitInfo;
+			if(Physics.Raycast(ray, out hitInfo))
 			{
-				UpdateUnit(unit);
+				var bodyPart = hitInfo.collider.GetComponent<BodyPart>();
+				if(bodyPart != null)
+				{
+					bodyPart.Detach();
+					bodyPart.rigid.AddExplosionForce(force, hitInfo.point, 1.0f);
+				}
 			}
 		}
 	}
-
-	void UpdateUnit(Unit unit)
-	{
-		List<UnitQuirk> quirks = unit.parts.quirks;
-		for(int i = 0; i < quirks.Count; i++)
-		{
-			UnitQuirk quirk = quirks[i];
-			quirk.DoUpdate();
-		}
-	}
-
-	#region Body Parts
-	#endregion // Body Parts
 	#endregion // Methods
 }
