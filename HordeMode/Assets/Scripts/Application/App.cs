@@ -78,6 +78,9 @@ public sealed partial class App : AppBase
 #if USE_REWIRED
 		rewired = InstantiateAndChild(prefabs.rewired);
 #endif // USE_REWIRED
+
+		Cursor.lockState = CursorLockMode.Locked;
+		Cursor.visible = false;
 	}
 
 	bool CheckReadyForSetup()
