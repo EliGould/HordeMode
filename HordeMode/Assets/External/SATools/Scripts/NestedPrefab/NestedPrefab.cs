@@ -32,6 +32,13 @@ public partial class NestedPrefab : MonoBehaviour
 
 	[SerializeField]
 	protected GameObject instantiated;
+
+	[SerializeField]
+	OptionalVector3 positionOffset;
+	[SerializeField]
+	OptionalVector3 rotationOffset;
+	[SerializeField]
+	OptionalVector3 localScale = new OptionalVector3(new Vector3(1.0f, 1.0f, 1.0f));
 #pragma warning restore 0649
 	#endregion // Serialized Fields
 
@@ -206,6 +213,21 @@ public partial class NestedPrefab : MonoBehaviour
 	protected void Setup()
 	{
 		ApplyFlagsRecursive();
+
+		if(positionOffset.hasValue)
+		{
+			instantiated.transform.localPosition = positionOffset.value;
+		}
+
+		if(rotationOffset.hasValue)
+		{
+			instantiated.transform.localRotation = Quaternion.Euler(rotationOffset.value);
+		}
+
+		if(localScale.hasValue)
+		{
+			instantiated.transform.localScale = localScale.value;
+		}
 
 		AtSetup();
 	}
