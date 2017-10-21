@@ -49,6 +49,10 @@ public partial class NestedPrefab : MonoBehaviour
 		{
 			Spawn();
 		}
+		else if(Application.isPlaying)
+		{
+			Setup();
+		}
 	}
 	#endregion // Mono
 
