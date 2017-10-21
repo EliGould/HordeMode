@@ -60,11 +60,19 @@ public static class Extensions
 
 	public static T[] Fill<T>(this T[] array, Func<T> creator)
 	{
-		T value = creator();
-
 		for(int i = 0; i < array.Length; ++i)
 		{
-			array[i] = value;
+			array[i] = creator();
+		}
+
+		return array;
+	}
+
+	public static T[] Fill<T>(this T[] array, Func<int, T> creator)
+	{
+		for(int i = 0; i < array.Length; ++i)
+		{
+			array[i] = creator(i);
 		}
 
 		return array;

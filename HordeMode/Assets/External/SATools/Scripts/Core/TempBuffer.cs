@@ -32,9 +32,7 @@ public static class TempList<T>
 	#endregion // Constants
 
 	#region Fields
-	static readonly TempListImpl<T>[] entries = new TempListImpl<T>[MAX_DEPTH].Fill(
-		() => new TempListImpl<T>()
-	);
+	static readonly TempListImpl<T>[] entries = new TempListImpl<T>[MAX_DEPTH].FillNew();
 	#endregion // Fields
 
 	#region Methods
@@ -85,7 +83,7 @@ public static class TempArray<T>
 
 	#region Fields
 	static readonly TempArrayImpl<T>[] entries = new TempArrayImpl<T>[MAX_DEPTH].Fill(
-		() => new TempArrayImpl<T>(LENGTH)
+		(index) => new TempArrayImpl<T>(LENGTH)
 	);
 	#endregion // Fields
 
@@ -106,12 +104,12 @@ public static class LargeTempArray<T>
 {
 	#region Constants
 	const int MAX_DEPTH = 3;
-	const int SIZE = 64;
+	const int LENGTH = 64;
 	#endregion // Constants
 
 	#region Fields
 	static readonly TempArrayImpl<T>[] entries = new TempArrayImpl<T>[MAX_DEPTH].Fill(
-		() => new TempArrayImpl<T>(SIZE)
+		() => new TempArrayImpl<T>(LENGTH)
 	);
 	#endregion // Fields
 
