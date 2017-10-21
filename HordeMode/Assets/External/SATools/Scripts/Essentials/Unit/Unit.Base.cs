@@ -1,0 +1,48 @@
+﻿using UnityEngine;
+using UE = UnityEngine;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+
+public sealed partial class Unit : SafeBehaviour
+{
+	#region Types
+	#region Serialized Types
+#pragma warning disable 0649
+#pragma warning restore 0649
+	#endregion // Serialized Types
+	#endregion // Types
+
+	#region Fields
+	#region Serialized Fields
+#pragma warning disable 0649
+	[SerializeField, InlineObject]
+	public UnitDefinition def;
+	[SerializeField]
+	public SceneData sceneData;
+#pragma warning restore 0649
+	#endregion // Serialized Fields
+
+	public Parts parts = new Parts();
+	#endregion // Fields
+
+	#region Properties
+	#endregion // Properties
+
+	#region Mono
+	protected override void AtSetup()
+	{
+		parts.quirks = new List<UnitQuirk>();
+
+		UnitManager.Register(this);
+	}
+
+	protected override void AtShutdown()
+	{
+		UnitManager.Unregister(this);
+	}
+	#endregion // Mono
+
+	#region Methods
+	#endregion // Methods
+}
