@@ -25,6 +25,12 @@ public sealed class NestedModel : NestedPrefab
 		public Material[] materials;
 		[SerializeField]
 		public bool useSharedMaterial;
+
+		[Space(5.0f)]
+		[SerializeField]
+		public bool generateMeshCollider;
+		[SerializeField]
+		public PhysicMaterial physicsMaterial;
 	}
 #pragma warning restore 0649
 	#endregion // Serialized Types
@@ -129,6 +135,17 @@ public sealed class NestedModel : NestedPrefab
 					else
 					{
 						rend.materials = data.materials;
+					}
+				}
+
+				if(data.generateMeshCollider)
+				{
+					var meshFilter = rend.gameObject.GetComponent<MeshFilter>();
+					if(meshFilter != null)
+					{
+						var meshColl = rend.gameObject.AddMissingComponent<MeshCollider>();
+						meshColl.sharedMaterial = data.physicsMaterial;
+						meshColl.sharedMesh = meshFilter.sharedMesh;
 					}
 				}
 			}
