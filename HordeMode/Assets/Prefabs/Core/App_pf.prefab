@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1831677179730186}
+  m_IsPrefabParent: 1
+--- !u!1 &1831677179730186
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4470393763779974}
+  - component: {fileID: 114271617632281770}
+  - component: {fileID: 114531296201371492}
+  m_Layer: 0
+  m_Name: App_pf
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4470393763779974
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1831677179730186}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.6263717, y: 0.75258565, z: 0.0996685}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114271617632281770
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1831677179730186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a4c1901873e9a4419e9def87f28c4fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  settings:
+    input: {fileID: 11400000, guid: 3af62bfc6fd495246bd8f8a69d634c6a, type: 2}
+    sound: {fileID: 11400000, guid: fe7c47a7fe6380b48975ab8c02aeba75, type: 2}
+    effect: {fileID: 11400000, guid: da4201835da96314b8c72081d3bacdf2, type: 2}
+    soundChannels: {fileID: 11400000, guid: ffad9f95493e24b4ea2c37c996ed7118, type: 2}
+  prefabs:
+    rewired: {fileID: 1800084802771760, guid: 6fa5b21621b2dc54ab5cdee242673372, type: 2}
+--- !u!114 &114531296201371492
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1831677179730186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 934ca2bcd40ad0b4b8c32e7b1283a441, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  settings:
+    unit: {fileID: 11400000, guid: bc72de4b1f3ab7e4e9355b2dfe7b1395, type: 2}
