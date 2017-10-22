@@ -1,0 +1,68 @@
+﻿using UnityEngine;
+using UE = UnityEngine;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+
+public sealed class #SCRIPTNAME# : MonoBehaviour
+{
+	#region Types
+	#endregion // Types
+
+	#region Static Fields
+	#endregion // Static Fields
+	
+	#region Fields
+	#endregion // Fields
+
+	#region Static Properties
+	static #SCRIPTNAME# instance
+	{
+		get;
+		set;
+	}
+	#endregion // Static Properties
+	
+	#region Properties
+	#endregion // Properties
+
+	#region Methods
+	#region System
+	public static #SCRIPTNAME# Setup(
+	)
+	{
+		instance = new GameObject("#SCRIPTNAME#").AddComponent<#SCRIPTNAME#>();
+	
+		instance.SetupInternal(
+		);
+	
+		return instance;
+	}
+	
+	void SetupInternal(
+	)
+	{
+	}
+	
+	public void Shutdown()
+	{
+	}
+	
+	public void SystemFixedUpdate()
+	{
+	}
+	
+	public void SystemUpdate()
+	{
+	}
+	
+	public void SystemLateUpdate()
+	{
+	}
+	
+	public void SystemPostRender()
+	{
+	}
+	#endregion // System
+	#endregion // Methods
+}

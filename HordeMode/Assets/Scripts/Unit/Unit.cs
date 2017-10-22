@@ -26,6 +26,9 @@ public sealed partial class Unit : UnitBase
 	#region Methods
 	protected override void AtPreRegister()
 	{
+		manState.homePoint = transform.position;
+		manState.faction = sceneData.startFaction;
+
 		parts.visual.GetComponentsInChildren<SkinnedMeshRenderer>(
 			includeInactive: true,
 			result: parts.renderers

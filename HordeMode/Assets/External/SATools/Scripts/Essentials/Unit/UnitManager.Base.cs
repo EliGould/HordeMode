@@ -11,6 +11,9 @@ public sealed partial class UnitManager : UnitManagerBase
 #pragma warning disable 0649
 #pragma warning restore 0649
 	#endregion // Serialized Types
+
+	public delegate void RegisteredHandler(Unit unit);
+	public delegate void UnregisteredHandler(Unit unit);
 	#endregion // Types
 
 	#region Fields
@@ -18,6 +21,9 @@ public sealed partial class UnitManager : UnitManagerBase
 #pragma warning disable 0649
 #pragma warning restore 0649
 	#endregion // Serialized Fields
+
+	public RegisteredHandler onUnitDidRegister;
+	public UnregisteredHandler onUnitWillUnregister;
 
 #pragma warning disable 0414
 	UnitSettings settings;
@@ -77,7 +83,9 @@ public sealed partial class UnitManager : UnitManagerBase
 	public static void Register(Unit unit)
 	{
 		instance.RegisterInternal(unit);
-	}
+
+		if(instance.onUnitDidRegister != null) { instance.onUnitDidRegister(unit); }
+    }
 
 	void RegisterInternal(Unit unit)
 	{
@@ -108,6 +116,8 @@ public sealed partial class UnitManager : UnitManagerBase
 	void UnregisterInternal(Unit unit)
 	{
 		if(!IsRegistered(unit)) { return; }
+
+		if(instance.onUnitWillUnregister != null) { instance.onUnitWillUnregister(unit); }
 
 		// TODO
 		for(int i = 0; i < unit.parts.quirks.Count; ++i)

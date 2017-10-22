@@ -20,6 +20,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4790718433849878}
   - component: {fileID: 114916383372116136}
+  - component: {fileID: 195318609513684144}
+  - component: {fileID: 114266490256552292}
   m_Layer: 0
   m_Name: Zombie_pf
   m_TagString: Untagged
@@ -63,7 +65,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1025646768268822}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: -3.598, y: -0.622, z: 0.0996685}
+  m_LocalPosition: {x: 2.83, y: 0, z: 0.0996685}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4063748696273910}
@@ -84,6 +86,15 @@ MonoBehaviour:
   prefab: {fileID: 100016, guid: df38d25b6fd39b44eacfb4a2b784547c, type: 3}
   inheritFlags: 1
   instantiated: {fileID: 0}
+  positionOffset:
+    use: 0
+    val: {x: 0, y: 0, z: 0}
+  rotationOffset:
+    use: 0
+    val: {x: 0, y: 0, z: 0}
+  localScale:
+    use: 1
+    val: {x: 1, y: 1, z: 1}
   animationUpdateMode: 0
   animationCullingMode: 2
   controller: {fileID: 0}
@@ -94,36 +105,61 @@ MonoBehaviour:
     materials:
     - {fileID: 2100000, guid: 2a5ee9c7a920eaa45be3e2b9b47a2589, type: 2}
     useSharedMaterial: 0
+    generateMeshCollider: 0
+    physicsMaterial: {fileID: 0}
   - shadowCastingMode: 1
     receiveShadows: 1
     overrideMaterials: 1
     materials:
     - {fileID: 2100000, guid: 2a5ee9c7a920eaa45be3e2b9b47a2589, type: 2}
     useSharedMaterial: 0
+    generateMeshCollider: 0
+    physicsMaterial: {fileID: 0}
   - shadowCastingMode: 1
     receiveShadows: 1
     overrideMaterials: 1
     materials:
     - {fileID: 2100000, guid: 2a5ee9c7a920eaa45be3e2b9b47a2589, type: 2}
     useSharedMaterial: 0
+    generateMeshCollider: 0
+    physicsMaterial: {fileID: 0}
   - shadowCastingMode: 1
     receiveShadows: 1
     overrideMaterials: 1
     materials:
     - {fileID: 2100000, guid: 2a5ee9c7a920eaa45be3e2b9b47a2589, type: 2}
     useSharedMaterial: 0
+    generateMeshCollider: 0
+    physicsMaterial: {fileID: 0}
   - shadowCastingMode: 1
     receiveShadows: 1
     overrideMaterials: 1
     materials:
     - {fileID: 2100000, guid: 2a5ee9c7a920eaa45be3e2b9b47a2589, type: 2}
     useSharedMaterial: 0
+    generateMeshCollider: 0
+    physicsMaterial: {fileID: 0}
   - shadowCastingMode: 1
     receiveShadows: 1
     overrideMaterials: 1
     materials:
     - {fileID: 2100000, guid: 2a5ee9c7a920eaa45be3e2b9b47a2589, type: 2}
     useSharedMaterial: 0
+    generateMeshCollider: 0
+    physicsMaterial: {fileID: 0}
+--- !u!114 &114266490256552292
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1025646768268822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3c3566d7a2ceb4459b741277cf7391b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectRange: 10
+  chaseRange: 20
 --- !u!114 &114916383372116136
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -136,5 +172,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   def: {fileID: 11400000, guid: 48cfe4c32339620478e054202776f6dd, type: 2}
+  sceneData:
+    startFaction: 0
   parts:
     visual: {fileID: 114109648335469290}
+    camera: {fileID: 0}
+    controller: {fileID: 0}
+    navMeshAgent: {fileID: 195318609513684144}
+--- !u!195 &195318609513684144
+NavMeshAgent:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1025646768268822}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4

@@ -26,12 +26,17 @@ public abstract class UnitQuirk : MonoBehaviour
 #pragma warning restore 0649
 	#endregion // Serialized Fields
 
-	protected Unit unit;
+	Unit _unit;
 
 	SetupFlags flags;
 	#endregion // Fields
 
 	#region Properties
+	public Unit unit
+	{
+		get { return _unit; }
+		private set { _unit = value; }
+	}
 	#endregion // Properties
 
 	#region Mono

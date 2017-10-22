@@ -51,6 +51,13 @@ public sealed partial class Unit : UnitBase
 
 	public sealed partial class ManagerState
 	{
+		public class AiData
+		{
+			public AiState state;
+			public Unit chasingTarget;
+			public Unit closestTarget;
+		}
+
 		public class GroundCheckData
 		{
 			public float delayTimer;
@@ -59,6 +66,18 @@ public sealed partial class Unit : UnitBase
 		public GroundCheckData groundCheck = new GroundCheckData();
 
 		public Player owner;
+
+		public int faction;
+
+		public Vector3 homePoint;
+
+		public AiData aiData = new AiData();
+	}
+
+	public enum AiState
+	{
+		Idle,
+		Chasing,
 	}
 	#endregion // Types
 

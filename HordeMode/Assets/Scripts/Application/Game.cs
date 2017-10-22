@@ -33,7 +33,8 @@ public sealed partial class Game : GameBase
 
 	int sceneFrameDelay;
 
-	UnitManager unitManager;
+	UnitManager unitMan;
+	EnemyManager enemyMan;
 	#endregion // Fields
 
 	#region Properties
@@ -59,9 +60,13 @@ public sealed partial class Game : GameBase
 	protected override void SetupSystems()
 	{
 		var unitSetup = new UnitSetupData();
-		Child(ref unitManager, UnitManager.Setup(
+		Child(ref unitMan, UnitManager.Setup(
 			settings.unit,
 			ref unitSetup
+		));
+
+		Child(ref enemyMan, EnemyManager.Setup(
+			unitMan
 		));
 
 		//gameUi = GameUi.Setup(
@@ -93,8 +98,11 @@ public sealed partial class Game : GameBase
 		//gameUi.Shutdown();
 		//gameUi = null;
 
-		unitManager.Shutdown();
-		unitManager = null;
+		enemyMan.Shutdown();
+		enemyMan = null;
+
+		unitMan.Shutdown();
+		unitMan = null;
 	}
 
 	public override void AtUpdate()
@@ -104,7 +112,8 @@ public sealed partial class Game : GameBase
 			gameScene.SystemUpdate();
 		}
 
-		unitManager.SystemUpdate();
+		enemyMan.SystemUpdate();
+		unitMan.SystemUpdate();
 	}
 	#endregion // Methods
 }

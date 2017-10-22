@@ -73,6 +73,7 @@ public sealed partial class Unit : UnitBase
 	// non-scene-specific goes in the Definition
 	public sealed partial class SceneData
 	{
+		public int startFaction = 0;
 	}
 
 	// Any and all components that is somehow attached to the Unit

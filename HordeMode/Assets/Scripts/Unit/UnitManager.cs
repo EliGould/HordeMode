@@ -33,7 +33,82 @@ public sealed partial class UnitManager : UnitManagerBase
 		{
 			unit.parts.camera.targetDisplay = player.index;
 		}
-    }
+	}
+
+	public void GetQuirks<T>(List<T> results) where T : UnitQuirk
+	{
+		for(int i = 0; i < allUnits.Count; i++)
+		{
+			Unit unit = allUnits[i];
+
+			if(!unit.isActiveAndEnabled) { continue; }
+
+			for(int z = 0; z < unit.parts.quirks.Count; z++)
+			{
+				UnitQuirk quirk = unit.parts.quirks[z];
+				if(quirk.GetType() == typeof(T))
+				{
+					results.Add((T)quirk);
+				}
+			}
+		}
+	}
+
+	public void GetUnits(
+		List<Unit> results,
+		int? inFaction = null,
+		int? notInFaction = null
+	)
+	{
+		for(int i = 0; i < allUnits.Count; i++)
+		{
+			Unit unit = allUnits[i];
+
+			if(!unit.isActiveAndEnabled) { continue; }
+
+			bool shouldAdd =
+				(inFaction == null || unit.manState.faction == inFaction.Value) &&
+				(notInFaction == null || unit.manState.faction != notInFaction.Value)
+			;
+			if(shouldAdd)
+			{
+				results.Add(unit);
+			}
+		}
+	}
+
+	public Unit GetClosestUnit(Unit fromUnit, List<Unit> otherUnits = null)
+	{
+		if(otherUnits == null) { otherUnits = allUnits; }
+
+		Unit closest = null;
+		float closestDist = float.PositiveInfinity;
+
+		for(int i = 0; i < otherUnits.Count; i++)
+		{
+			Unit otherUnit = otherUnits[i];
+
+			if(otherUnit == fromUnit) { continue; }
+
+			float dist = DistanceBetweenUnits(fromUnit, otherUnit);
+
+			if(dist < closestDist)
+			{
+				closest = otherUnit;
+				closestDist = dist;
+			}
+		}
+
+		return closest;
+	}
+
+	public float DistanceBetweenUnits(Unit a, Unit b)
+	{
+		return Vector3.Distance(
+			a.transform.position,
+			b.transform.position
+		);
+	}
 	#endregion // Interface
 
 	public void SystemUpdate()
@@ -45,8 +120,6 @@ public sealed partial class UnitManager : UnitManagerBase
 			{
 				UpdateUnit(unit);
 			}
-
-			UpdateMovement(unit);
         }
 	}
 
@@ -58,6 +131,9 @@ public sealed partial class UnitManager : UnitManagerBase
 			UnitQuirk quirk = quirks[i];
 			quirk.DoUpdate();
 		}
+
+		UpdateMovement(unit);
+		UpdatePathing(unit);
 	}
 
 	void UpdateMovement(Unit unit)
@@ -186,6 +262,74 @@ public sealed partial class UnitManager : UnitManagerBase
 		return false;
 	}
 
+	void UpdatePathing(Unit unit)
+	{
+		if(unit.parts.navMeshAgent == null) { return; }
+
+		const float epsilon = 0.001f;
+
+		NavMeshAgent navAgent = unit.parts.navMeshAgent;
+		Unit.State.Persistent persistent = unit.state.persistent;
+
+		if(persistent.navTarget == null)
+		{
+			navAgent.isStopped = true;
+			navAgent.ResetPath();
+		}
+		else
+		{
+			NavMeshHit hitInfo;
+			bool validNavTarget = NavMesh.SamplePosition(
+				persistent.navTarget.Value,
+				out hitInfo,
+				maxDistance: Mathf.Infinity,
+				areaMask: 1 << 0
+			);
+
+			if(!validNavTarget)
+			{
+				persistent.navTarget = null;
+				return;
+			}
+
+			float diff = Vector3.Distance(hitInfo.position, navAgent.destination);
+			if(diff > epsilon)
+			{
+				//Dbg.Log("Setting new destination");
+				bool success = navAgent.SetDestination(persistent.navTarget.Value);
+				if(!success)
+				{
+					persistent.navTarget = null;
+				}
+			}
+
+			if(persistent.navTarget != null)
+			{
+				bool reached = ReachedDestination(unit);
+
+				if(reached)
+				{
+					//Dbg.Log("Reached destination");
+					persistent.navTarget = null;
+				}
+			}
+		}
+	}
+
+	public bool ReachedDestination(Unit unit)
+	{
+		const float epsilon = 0.001f;
+
+		NavMeshAgent navAgent = unit.parts.navMeshAgent;
+
+		bool reached =
+			navAgent.pathStatus == NavMeshPathStatus.PathComplete &&
+			navAgent.remainingDistance <= epsilon &&
+			!navAgent.pathPending
+		;
+
+		return reached;
+	}
 	#region Body Parts
 	#endregion // Body Parts
 	#endregion // Methods
