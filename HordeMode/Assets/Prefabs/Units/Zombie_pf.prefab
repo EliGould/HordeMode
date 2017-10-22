@@ -66,7 +66,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1025646768268822}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 2.83, y: 0, z: 0.0996685}
+  m_LocalPosition: {x: 7.471901, y: 0, z: 2.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4063748696273910}
@@ -174,42 +174,54 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   partDefs:
     _items:
-    - rend:
+    - lifeCritical: 0
+      hitPoints: 5
+      rend:
         kind: 2
         parent: {fileID: 4063748696273910}
         childName: Head1
         findInChildren: 0
         findInactive: 0
         directComponent: {fileID: 0}
-    - rend:
+    - lifeCritical: 1
+      hitPoints: 5
+      rend:
         kind: 2
         parent: {fileID: 4063748696273910}
         childName: Body1
         findInChildren: 0
         findInactive: 0
         directComponent: {fileID: 0}
-    - rend:
+    - lifeCritical: 0
+      hitPoints: 5
+      rend:
         kind: 2
         parent: {fileID: 4063748696273910}
         childName: ArmLeft1
         findInChildren: 0
         findInactive: 0
         directComponent: {fileID: 0}
-    - rend:
+    - lifeCritical: 0
+      hitPoints: 5
+      rend:
         kind: 2
         parent: {fileID: 4063748696273910}
         childName: ArmRight1
         findInChildren: 0
         findInactive: 0
         directComponent: {fileID: 0}
-    - rend:
+    - lifeCritical: 0
+      hitPoints: 5
+      rend:
         kind: 2
         parent: {fileID: 4063748696273910}
         childName: LegLeft1
         findInChildren: 0
         findInactive: 0
         directComponent: {fileID: 0}
-    - rend:
+    - lifeCritical: 0
+      hitPoints: 5
+      rend:
         kind: 2
         parent: {fileID: 4063748696273910}
         childName: LegRight1
@@ -236,6 +248,7 @@ MonoBehaviour:
     controller: {fileID: 0}
     navMeshAgent: {fileID: 195318609513684144}
     bodyParts: {fileID: 114692408941475640}
+    startWeapon: {fileID: 0}
 --- !u!195 &195318609513684144
 NavMeshAgent:
   m_ObjectHideFlags: 1

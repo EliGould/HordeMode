@@ -111,6 +111,77 @@ public sealed partial class UnitManager : UnitManagerBase
 			b.transform.position
 		);
 	}
+
+	public void DamageUnit(
+		Collider hitCollider,
+		int damage,
+		RaycastHit? hitInfo = null,
+		Unit attacker = null,
+		Weapon weapon = null
+	)
+	{
+		Unit unit = collToUnit.FindOrNull(hitCollider);
+		if(unit == null) { return; }
+
+		BodyParts bodyParts = unit.parts.bodyParts;
+		BodyParts.PartData partData = bodyParts.GetPartDataForCollider(hitCollider);
+
+		if(!partData.isAttached) { return; }
+
+		BodyParts.PartDef partDef = bodyParts.GetPartDefForKind(partData.kind);
+
+		int newHp = Mathf.Max(0, partData.hitPoints - damage);
+		partData.hitPoints = newHp;
+
+		Dbg.Log("{0} hit {1} in {2} for {3} damage!", GarbageCache.GetName(attacker), GarbageCache.GetName(unit), partData.kind, damage);
+
+		if(unit.parts.navMeshAgent != null)
+		{
+			unit.parts.navMeshAgent.velocity = Vector3.zero;
+		}
+
+		if(newHp == 0)
+		{
+			if(partDef.lifeCritical)
+			{
+				KillUnit(unit);
+			}
+			else
+			{
+				bodyParts.Detach(partData);
+			}
+		}
+	}
+
+	void KillUnit(Unit unit)
+	{
+		Dbg.Log("{0} dies!", GarbageCache.GetName(unit));
+		unit.parts.bodyParts.DetachAll();
+		Weapon wieldingWeapon = unit.manState.weaponData.wieldingWeapon;
+		if(wieldingWeapon != null)
+		{
+			wieldingWeapon.SetWielder(null);
+		}
+	}
+
+	public void SetWeapon(Unit unit, Weapon weapon)
+	{
+		Unit.ManagerState.WeaponData weaponData = unit.manState.weaponData;
+		if(weaponData.wieldingWeapon != null)
+		{
+			weaponData.wieldingWeapon.transform.parent = null;
+			weaponData.wieldingWeapon.SetWielder(null);
+		}
+
+		weaponData.wieldingWeapon = weapon;
+		if(weapon == null) { return; }
+
+		weapon.SetWielder(unit);
+
+		weapon.transform.parent = weaponData.parentNode;
+		weapon.transform.localPosition = Vector3.zero;
+		weapon.transform.localRotation = Quaternion.identity;
+	}
 	#endregion // Interface
 
 	#region Updating
@@ -123,7 +194,7 @@ public sealed partial class UnitManager : UnitManagerBase
 			{
 				UpdateUnit(unit);
 			}
-        }
+		}
 	}
 
 	void UpdateUnit(Unit unit)
@@ -137,7 +208,8 @@ public sealed partial class UnitManager : UnitManagerBase
 
 		UpdateMovement(unit);
 		UpdatePathing(unit);
-	}
+		UpdateWeapon(unit);
+    }
 
 	void UpdateMovement(Unit unit)
 	{
@@ -180,12 +252,12 @@ public sealed partial class UnitManager : UnitManagerBase
 			}
 		}
 
-		DbgValues.Set(unit, "xzSpeed", xzSpeed);
-		DbgValues.Set(unit, "moveInput", inputMoveVector);
-		DbgValues.Set(unit, "aimInput", inputMoveVector);
-		DbgValues.Set(unit, "jumpInput", state.momentary.jumpInput);
-		DbgValues.Set(unit, "fireInput", state.momentary.fireInput);
-		DbgValues.Set(unit, "rot", unit.transform.rotation);
+		//DbgValues.Set(unit, "xzSpeed", xzSpeed);
+		//DbgValues.Set(unit, "moveInput", inputMoveVector);
+		//DbgValues.Set(unit, "aimInput", inputMoveVector);
+		//DbgValues.Set(unit, "jumpInput", state.momentary.jumpInput);
+		//DbgValues.Set(unit, "fireInput", state.momentary.fireInput);
+		//DbgValues.Set(unit, "rot", unit.transform.rotation);
 
 		Vector2 moveVector = xzDir * xzSpeed;
 
@@ -318,6 +390,17 @@ public sealed partial class UnitManager : UnitManagerBase
 			}
 		}
 	}
+
+	void UpdateWeapon(Unit unit)
+	{
+		Unit.ManagerState.WeaponData weaponData = unit.manState.weaponData;
+		if(weaponData.wieldingWeapon == null) { return; }
+
+		if(unit.state.momentary.fireInput)
+		{
+			weaponData.wieldingWeapon.Fire();
+        }
+	}
 	#endregion // Updating
 
 	#region Lifecycle
@@ -334,6 +417,13 @@ public sealed partial class UnitManager : UnitManagerBase
 				Collider coll = colls[i];
 				collToUnit[coll] = unit;
 			}
+		}
+
+		Weapon startWeaponPf = unit.parts.startWeapon;
+		if(startWeaponPf != null)
+		{
+			var startWeapon = Instantiate(startWeaponPf);
+			SetWeapon(unit, startWeapon);
 		}
 	}
 

@@ -31,6 +31,8 @@ public sealed partial class UnitDefinition : ScriptableObject
 	[Serializable]
 	public class AttackData
 	{
+		[SerializeField]
+		public string weaponNodeName = "WeaponNode";
 	}
 #pragma warning restore 0649
 	#endregion // Serialized Types
@@ -90,6 +92,8 @@ public sealed partial class Unit : UnitBase
 		public NavMeshAgent navMeshAgent;
 		[SerializeField]
 		public BodyParts bodyParts;
+		[SerializeField, Prop(objRefRestrict: PropObjRefRestrict.OnlyAsset)]
+		public Weapon startWeapon;
 
 		[NonSerialized]
 		public Transform rigidRoot;

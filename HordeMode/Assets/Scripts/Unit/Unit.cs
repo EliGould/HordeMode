@@ -28,6 +28,7 @@ public sealed partial class Unit : UnitBase
 	{
 		manState.homePoint = transform.position;
 		manState.faction = sceneData.startFaction;
+		manState.weaponData.parentNode = transform.FindDeep(def.attackData.weaponNodeName);
 
 		parts.visual.GetComponentsInChildren<SkinnedMeshRenderer>(
 			includeInactive: true,

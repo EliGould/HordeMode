@@ -3,6 +3,9 @@ using UE = UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif // UNITY_EDITOR
 
 public sealed partial class Unit : UnitBase
 {
@@ -63,7 +66,14 @@ public sealed partial class Unit : UnitBase
 			public float delayTimer;
 		}
 
+		public class WeaponData
+		{
+			public Transform parentNode;
+			public Weapon wieldingWeapon;
+		}
+
 		public GroundCheckData groundCheck = new GroundCheckData();
+		public WeaponData weaponData = new WeaponData();
 
 		public Player owner;
 

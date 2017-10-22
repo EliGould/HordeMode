@@ -16,11 +16,15 @@ public sealed class BodyParts : MonoBehaviour
 	public class PartDef
 	{
 		[SerializeField]
+		public bool lifeCritical;
+		[SerializeField]
+		public int hitPoints = 5;
+		[SerializeField]
 		public FindSkinnedMeshRendField rend;
 	}
 
 	[Serializable]
-	public class PartDefs : EnumItems<PartKind, PartDef>
+	class PartDefs : EnumItems<PartKind, PartDef>
 	{
 #if UNITY_EDITOR
 		[CustomPropertyDrawer(typeof(PartDefs))]
@@ -42,13 +46,22 @@ public sealed class BodyParts : MonoBehaviour
 
 	public class PartData
 	{
+		public PartKind kind;
+
 		public bool isAttached;
 		public NodeData attached = new NodeData();
 		public NodeData detached = new NodeData();
+
+		public int hitPoints;
 	}
 
-	public class Parts : EnumItems<PartKind, PartData>
+	class Parts : EnumItems<PartKind, PartData>
 	{
+		public Parts() : base()
+		{
+			items.FillNew();
+		}
+		
 #if UNITY_EDITOR
 		[CustomPropertyDrawer(typeof(Parts))]
 		class ItemsDrawer : Drawer
@@ -86,14 +99,15 @@ public sealed class BodyParts : MonoBehaviour
 	#region Methods
 	public void Setup(Unit unit)
 	{
-		parts.items.FillNew();
-
 		for(int i = 0; i < EnumHelper<PartKind>.count; i++)
 		{
 			PartKind kind = EnumHelper<PartKind>.values[i];
 
 			PartDef def = partDefs[kind];
 			PartData data = parts[kind];
+
+			data.kind = kind;
+			data.hitPoints = def.hitPoints;
 
 			SkinnedMeshRenderer rend = def.rend.SetupWithSelf(transform);
 
@@ -113,7 +127,7 @@ public sealed class BodyParts : MonoBehaviour
 			// Detached arts needs to be in root, since parts are childed under eachother
 			data.detached.rootBone.parent = rigidRend.transform.parent;
 
-			attachedCollToPart[data.detached.coll] = data;
+			attachedCollToPart[data.attached.coll] = data;
         }
 
 		ReattachAll();
@@ -126,6 +140,16 @@ public sealed class BodyParts : MonoBehaviour
 		nodeData.rootBone = rend.rootBone;
 	}
 
+	public PartData GetPartDataForCollider(Collider coll)
+	{
+		return attachedCollToPart.FindOrNull(coll);
+	}
+
+	public PartDef GetPartDefForKind(PartKind kind)
+	{
+		return partDefs[kind];
+	}
+
 	public void GetAttachedColliders(List<Collider> results)
 	{
 		foreach(var kvp in attachedCollToPart)
@@ -136,12 +160,27 @@ public sealed class BodyParts : MonoBehaviour
 		}
 	}
 
+	public void DetachAll()
+	{
+		SetAllAttached(false);
+	}
+
 	public void ReattachAll()
+	{
+		SetAllAttached(true);
+	}
+
+	public void Detach(PartData partData)
+	{
+		SetAttached(partData, false);
+	}
+
+	void SetAllAttached(bool attached)
 	{
 		for(int i = 0; i < parts.items.Length; i++)
 		{
 			PartData part = parts.items[i];
-			SetAttached(part, true);
+			SetAttached(part, attached);
 		}
 	}
 
@@ -149,6 +188,9 @@ public sealed class BodyParts : MonoBehaviour
 	{
 		if(part.isAttached == attached) { return; }
 
+		PartDef partDef = GetPartDefForKind(part.kind);
+
+		part.hitPoints = attached ? partDef.hitPoints : 0;
 		part.isAttached = attached;
 
 		SetActive(part.attached, attached);
