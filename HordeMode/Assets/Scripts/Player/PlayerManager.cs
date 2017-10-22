@@ -147,9 +147,11 @@ public sealed class PlayerManager : MonoBehaviour
 
 	Player CreatePlayer(int id)
 	{
-		InputSource input = inputMan.CreateSource(id);
+		int index = id == -1 ? -1 : players.Count;
 
-		var player = new Player(id, input);
+		InputSource input = inputMan.CreateSource(id, index);
+
+		var player = new Player(id, index, input);
 
 		allPlayers.Add(player);
 

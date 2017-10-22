@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UE = UnityEngine;
+using UnityEngine.AI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,6 +18,14 @@ public sealed partial class UnitDefinition : ScriptableObject
 	[Serializable]
 	public class MoveData
 	{
+		[SerializeField]
+		public float acceleration = 10.0f;
+		[SerializeField]
+		public float deceleration = 10.0f;
+		[SerializeField]
+		public float moveSpeed = 10.0f;
+		[SerializeField]
+		public float jumpForce = 100.0f;
 	}
 
 	[Serializable]
@@ -70,7 +79,15 @@ public sealed partial class Unit : UnitBase
 	// (i.e. other components that it needs to know about)
 	public sealed partial class Parts
 	{
+		[SerializeField]
 		public NestedModel visual;
+		[SerializeField]
+		public Camera camera;
+		[SerializeField]
+		public CharacterController controller;
+		[SerializeField]
+		public NavMeshAgent navMeshAgent;
+
 		[NonSerialized]
 		public List<SkinnedMeshRenderer> renderers = new List<SkinnedMeshRenderer>();
 		[NonSerialized]

@@ -11,4 +11,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e16866b95a2e8e64e8b0436c0fd3e3cb, type: 3}
   m_Name: InputActionDefs
   m_EditorClassIdentifier: 
-  dynEnums: []
+  dynEnums:
+  - name: Move
+    kind: 2
+    rewiredAction1: 0
+    rewiredAction2: 1
+  - name: Aim
+    kind: 2
+    rewiredAction1: 2
+    rewiredAction2: 3
+  - name: Fire
+    kind: 0
+    rewiredAction1: 4
+    rewiredAction2: 0
+  - name: Jump
+    kind: 0
+    rewiredAction1: 5
+    rewiredAction2: 0

@@ -11,6 +11,7 @@ public sealed class Player
 
 	#region Fields
 	public readonly int id;
+	public readonly int index;
 	public readonly InputSource inputSource;
 	#endregion // Fields
 
@@ -18,9 +19,10 @@ public sealed class Player
 	#endregion // Properties
 
 	#region Methods
-	public Player(int id, InputSource inputSource)
+	public Player(int id, int index, InputSource inputSource)
 	{
 		this.id = id;
+		this.index = index;
 		this.inputSource = inputSource;
 	}
 	#endregion // Methods

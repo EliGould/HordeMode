@@ -28,6 +28,8 @@ public sealed partial class Game : GameBase
 	#endregion // Serialized Fields
 
 	Camera mainCamera;
+	PlayerManager playerMan;
+	GameScene gameScene;
 
 	int sceneFrameDelay;
 
@@ -65,10 +67,29 @@ public sealed partial class Game : GameBase
 		//gameUi = GameUi.Setup(
 		//	mainCamera
 		//);
-    }
+
+		gameScene = FindObjectOfType<GameScene>();
+
+		if(gameScene != null)
+		{
+			PreinitializeScene(gameScene);
+			gameScene.Setup();
+		}
+	}
+
+	void PreinitializeScene(GameScene scene)
+	{
+		gameScene.Preinitialize();
+	}
 
 	protected override void ShutdownSystems()
 	{
+		if(gameScene != null)
+		{
+			gameScene.Shutdown();
+			gameScene = null;
+		}
+
 		//gameUi.Shutdown();
 		//gameUi = null;
 
@@ -78,6 +99,11 @@ public sealed partial class Game : GameBase
 
 	public override void AtUpdate()
 	{
+		if(gameScene != null)
+		{
+			gameScene.SystemUpdate();
+		}
+
 		unitManager.SystemUpdate();
 	}
 	#endregion // Methods

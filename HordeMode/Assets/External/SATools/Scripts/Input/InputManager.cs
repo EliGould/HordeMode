@@ -90,7 +90,7 @@ public sealed partial class InputManager : InputManagerBase
 	#endregion // System
 
 	#region Interface
-	public InputSource CreateSource(int playerId)
+	public InputSource CreateSource(int playerId, int playerIndex)
 	{
 		InputSource source;
 #if USE_REWIRED
