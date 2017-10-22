@@ -85,7 +85,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 100016, guid: df38d25b6fd39b44eacfb4a2b784547c, type: 3}
-  inheritFlags: 1
+  inheritFlags: 5
   instantiated: {fileID: 0}
   positionOffset:
     use: 0

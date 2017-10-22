@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 124278449416337882}
   - component: {fileID: 81666503680460326}
   - component: {fileID: 114358128003533872}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,8 @@ GameObject:
   - component: {fileID: 114555311887813794}
   - component: {fileID: 143895507133552798}
   - component: {fileID: 114535449898455276}
-  m_Layer: 0
+  - component: {fileID: 114584130007166740}
+  m_Layer: 9
   m_Name: Player_pf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,7 +58,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4450784898458198}
   - component: {fileID: 114474338287757052}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -171,7 +172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 100016, guid: df38d25b6fd39b44eacfb4a2b784547c, type: 3}
-  inheritFlags: 1
+  inheritFlags: 5
   instantiated: {fileID: 0}
   positionOffset:
     use: 0
@@ -225,11 +226,69 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   def: {fileID: 11400000, guid: eaa4e5bc3cc5ca748993fe11dd4eb79c, type: 2}
+  sceneData:
+    startFaction: 1
   parts:
     visual: {fileID: 114474338287757052}
     camera: {fileID: 20202270165135444}
     controller: {fileID: 143895507133552798}
     navMeshAgent: {fileID: 0}
+    bodyParts: {fileID: 114584130007166740}
+--- !u!114 &114584130007166740
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1175626171424890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08d392315757274418445f3bd1e5990f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  partDefs:
+    _items:
+    - rend:
+        kind: 2
+        parent: {fileID: 4450784898458198}
+        childName: Head1
+        findInChildren: 0
+        findInactive: 0
+        directComponent: {fileID: 0}
+    - rend:
+        kind: 2
+        parent: {fileID: 4450784898458198}
+        childName: Body1
+        findInChildren: 0
+        findInactive: 0
+        directComponent: {fileID: 0}
+    - rend:
+        kind: 2
+        parent: {fileID: 4450784898458198}
+        childName: ArmLeft1
+        findInChildren: 0
+        findInactive: 0
+        directComponent: {fileID: 0}
+    - rend:
+        kind: 2
+        parent: {fileID: 4450784898458198}
+        childName: ArmRight1
+        findInChildren: 0
+        findInactive: 0
+        directComponent: {fileID: 0}
+    - rend:
+        kind: 2
+        parent: {fileID: 4450784898458198}
+        childName: LegLeft1
+        findInChildren: 0
+        findInactive: 0
+        directComponent: {fileID: 0}
+    - rend:
+        kind: 2
+        parent: {fileID: 4450784898458198}
+        childName: LegRight1
+        findInChildren: 0
+        findInactive: 0
+        directComponent: {fileID: 0}
 --- !u!124 &124278449416337882
 Behaviour:
   m_ObjectHideFlags: 1
