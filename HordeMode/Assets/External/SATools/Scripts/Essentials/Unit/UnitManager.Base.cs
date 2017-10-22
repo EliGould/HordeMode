@@ -84,6 +84,8 @@ public sealed partial class UnitManager : UnitManagerBase
 	{
 		instance.RegisterInternal(unit);
 
+		instance.AtDidRegister(unit);
+
 		if(instance.onUnitDidRegister != null) { instance.onUnitDidRegister(unit); }
     }
 
@@ -119,6 +121,8 @@ public sealed partial class UnitManager : UnitManagerBase
 
 		if(instance.onUnitWillUnregister != null) { instance.onUnitWillUnregister(unit); }
 
+		AtWillUnregister(unit);
+
 		// TODO
 		for(int i = 0; i < unit.parts.quirks.Count; ++i)
 		{
@@ -136,6 +140,9 @@ public sealed partial class UnitManager : UnitManagerBase
 public abstract class UnitManagerBase : MonoBehaviour
 {
 	protected virtual void AtSetup(UnitSettings settings, ref UnitSetupData setupData) { }
+
+	protected virtual void AtDidRegister(Unit unit) { }
+	protected virtual void AtWillUnregister(Unit unit) { }
 }
 
 // Should contain any additional required systems and data

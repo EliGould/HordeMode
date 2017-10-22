@@ -88,11 +88,15 @@ public sealed partial class Unit : UnitBase
 		public CharacterController controller;
 		[SerializeField]
 		public NavMeshAgent navMeshAgent;
+		[SerializeField]
+		public BodyParts bodyParts;
 
+		[NonSerialized]
+		public Transform rigidRoot;
 		[NonSerialized]
 		public List<SkinnedMeshRenderer> renderers = new List<SkinnedMeshRenderer>();
 		[NonSerialized]
-		public List<BodyPart> bodyParts = new List<BodyPart>();
+		public List<SkinnedMeshRenderer> rigidRenderers = new List<SkinnedMeshRenderer>();
 	}
 	#endregion // Types
 

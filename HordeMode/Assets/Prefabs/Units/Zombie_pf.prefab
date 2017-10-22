@@ -22,7 +22,8 @@ GameObject:
   - component: {fileID: 114916383372116136}
   - component: {fileID: 195318609513684144}
   - component: {fileID: 114266490256552292}
-  m_Layer: 0
+  - component: {fileID: 114692408941475640}
+  m_Layer: 9
   m_Name: Zombie_pf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,7 +39,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4063748696273910}
   - component: {fileID: 114109648335469290}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -160,6 +161,61 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   detectRange: 10
   chaseRange: 20
+--- !u!114 &114692408941475640
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1025646768268822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08d392315757274418445f3bd1e5990f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  partDefs:
+    _items:
+    - rend:
+        kind: 2
+        parent: {fileID: 4063748696273910}
+        childName: Head1
+        findInChildren: 0
+        findInactive: 0
+        directComponent: {fileID: 0}
+    - rend:
+        kind: 2
+        parent: {fileID: 4063748696273910}
+        childName: Body1
+        findInChildren: 0
+        findInactive: 0
+        directComponent: {fileID: 0}
+    - rend:
+        kind: 2
+        parent: {fileID: 4063748696273910}
+        childName: ArmLeft1
+        findInChildren: 0
+        findInactive: 0
+        directComponent: {fileID: 0}
+    - rend:
+        kind: 2
+        parent: {fileID: 4063748696273910}
+        childName: ArmRight1
+        findInChildren: 0
+        findInactive: 0
+        directComponent: {fileID: 0}
+    - rend:
+        kind: 2
+        parent: {fileID: 4063748696273910}
+        childName: LegLeft1
+        findInChildren: 0
+        findInactive: 0
+        directComponent: {fileID: 0}
+    - rend:
+        kind: 2
+        parent: {fileID: 4063748696273910}
+        childName: LegRight1
+        findInChildren: 0
+        findInactive: 0
+        directComponent: {fileID: 0}
 --- !u!114 &114916383372116136
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -179,6 +235,7 @@ MonoBehaviour:
     camera: {fileID: 0}
     controller: {fileID: 0}
     navMeshAgent: {fileID: 195318609513684144}
+    bodyParts: {fileID: 114692408941475640}
 --- !u!195 &195318609513684144
 NavMeshAgent:
   m_ObjectHideFlags: 1

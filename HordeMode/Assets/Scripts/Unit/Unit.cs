@@ -58,37 +58,22 @@ public sealed partial class Unit : UnitBase
 		// Destroy NestedPrefab component
 		Destroy(copy);
 
-		for(int i = 0; i < parts.renderers.Count; i++)
+		copyRoot.GetComponentsInChildren<SkinnedMeshRenderer>(
+			includeInactive: true,
+			result: parts.rigidRenderers
+		);
+
+		parts.rigidRoot = copyRoot;
+
+		for(int i = 0; i < parts.rigidRenderers.Count; i++)
 		{
 			var rend = parts.renderers[i];
-		
-			Transform copyBone = copyRoot.FindDeep(rend.name);
-			BodyPart bodyPart = rend.rootBone.gameObject.AddComponent<BodyPart>();
-
-			bodyPart.visualColl = rend.rootBone.GetComponent<BoxCollider>();
-			bodyPart.visualRend = rend;
-			bodyPart.visualRootBone = rend.rootBone;
-
-			bodyPart.rend = copyBone.GetComponent<SkinnedMeshRenderer>();
+			var rigidRend = parts.rigidRenderers[i];
 
 			if(def.texture != null)
 			{
-				bodyPart.rend.material.mainTexture = def.texture;
+				rigidRend.material.mainTexture = def.texture;
 			}
-
-			Transform rootBone = bodyPart.rend.rootBone;
-			bodyPart.coll = rootBone.GetComponent<BoxCollider>();
-			bodyPart.rootBone = rootBone;
-			bodyPart.rigid = bodyPart.rootBone.gameObject.AddComponent<Rigidbody>();
-
-			rootBone.parent = copyBone.parent;
-
-			bodyPart.origPos = rootBone.localPosition;
-			bodyPart.origRot = rootBone.localRotation;
-
-			bodyPart.Attach();
-
-			parts.bodyParts.Add(bodyPart);
 		}
 	}
 	#endregion // Methods

@@ -19,6 +19,8 @@ public sealed partial class UnitManager : UnitManagerBase
 #pragma warning disable 0649
 #pragma warning restore 0649
 	#endregion // Serialized Fields
+
+	Dictionary<Collider, Unit> collToUnit = new Dictionary<Collider, Unit>();
 	#endregion // Fields
 
 	#region Properties
@@ -111,6 +113,7 @@ public sealed partial class UnitManager : UnitManagerBase
 	}
 	#endregion // Interface
 
+	#region Updating
 	public void SystemUpdate()
 	{
 		for(int i = 0; i < allUnits.Count; i++)
@@ -315,6 +318,39 @@ public sealed partial class UnitManager : UnitManagerBase
 			}
 		}
 	}
+	#endregion // Updating
+
+	#region Lifecycle
+	protected override void AtDidRegister(Unit unit)
+	{
+		unit.parts.bodyParts.Setup(unit);
+
+		using(var colls = TempList<Collider>.Get())
+		{
+			unit.parts.bodyParts.GetAttachedColliders(colls.buffer);
+
+			for(int i = 0; i < colls.Count; i++)
+			{
+				Collider coll = colls[i];
+				collToUnit[coll] = unit;
+			}
+		}
+	}
+
+	protected override void AtWillUnregister(Unit unit)
+	{
+		using(var colls = TempList<Collider>.Get())
+		{
+			unit.parts.bodyParts.GetAttachedColliders(colls.buffer);
+
+			for(int i = 0; i < colls.Count; i++)
+			{
+				Collider coll = colls[i];
+				collToUnit.Remove(coll);
+			}
+		}
+	}
+	#endregion // Lifecycle
 
 	public bool ReachedDestination(Unit unit)
 	{
