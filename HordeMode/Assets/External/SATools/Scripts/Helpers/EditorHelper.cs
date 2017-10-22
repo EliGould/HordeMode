@@ -38,6 +38,20 @@ public static class EditorHelper
 		}
 	}
 
+	public static void RegisterUndo(string name, params UE.Object[] objects)
+	{
+		if(objects == null || objects.Length == 0) { return; }
+
+		Undo.RecordObjects(objects, name);
+
+		foreach(UE.Object obj in objects)
+		{
+			if(obj == null) { continue; }
+
+			EditorUtility.SetDirty(obj);
+		}
+	}
+
 	#region Serialized Property
 	// Kudoes to/Stolen from Rotorz Reorderable List
 	// https://bitbucket.org/rotorz/reorderable-list-editor-field-for-unity

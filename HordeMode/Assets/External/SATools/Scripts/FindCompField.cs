@@ -171,6 +171,13 @@ public class FindMeshRendField : FindCompField<MeshRenderer>
 }
 #endregion // MeshRenderer
 
+#region SkinnedMeshRenderer
+[Serializable]
+public class FindSkinnedMeshRendField : FindCompField<SkinnedMeshRenderer>
+{
+}
+#endregion // SkinnedMeshRenderer
+
 #region Light
 [Serializable]
 public class FindLightField : FindCompField<Light>

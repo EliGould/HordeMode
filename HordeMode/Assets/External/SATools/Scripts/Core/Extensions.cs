@@ -47,6 +47,23 @@ public static class Extensions
 	}
 	#endregion // Vector
 
+	#region String
+	public static string Fmt(this string fmt, object a)
+	{
+		return string.Format(fmt, a);
+	}
+
+	public static string Fmt(this string fmt, object a, object b)
+	{
+		return string.Format(fmt, a, b);
+	}
+
+	public static string Fmt(this string fmt, params object[] args)
+	{
+		return string.Format(fmt, args);
+	}
+	#endregion // String
+
 	#region Array
 	public static T[] Fill<T>(this T[] array, T value)
 	{
