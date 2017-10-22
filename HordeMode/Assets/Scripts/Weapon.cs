@@ -29,8 +29,12 @@ public sealed class Weapon : SafeBehaviour
 	}
 
 	[Serializable]
-	class MiscData
+	public class MiscData
 	{
+		[SerializeField]
+		public float impactForce = 10.0f;
+		[SerializeField]
+		public float knockbackForce = 0.5f;
 		[SerializeField]
 		public float cooldown = 0.2f;
 	}
@@ -51,7 +55,7 @@ public sealed class Weapon : SafeBehaviour
 	[SerializeField]
 	DamageData damageData;
 	[SerializeField]
-	MiscData miscData;
+	public MiscData miscData;
 	[SerializeField, EnumRestrict("kind", Kind.Ray)]
 	RayData rayData;
 #pragma warning restore 0649
@@ -125,10 +129,22 @@ public sealed class Weapon : SafeBehaviour
 
 		if(hit)
 		{
+			Rigidbody attachedRigid = hitInfo.collider.attachedRigidbody;
+
+			if(attachedRigid != null)
+			{
+				attachedRigid.AddForce(
+					ray.direction * miscData.impactForce,
+					ForceMode.Impulse
+				);
+			}
+
 			UnitManager.instance.DamageUnit(
 				hitInfo.collider,
 				damageData.damage,
 				attacker: wielder,
+				ray: ray,
+				hitInfo: hitInfo,
 				weapon: this
 			);
 		}

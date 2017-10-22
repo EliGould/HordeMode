@@ -130,6 +130,10 @@ MonoBehaviour:
   kind: 0
   damageData:
     damage: 1
+  miscData:
+    impactForce: 10
+    knockbackForce: 0.5
+    cooldown: 0.2
   rayData:
     origin:
       kind: 0

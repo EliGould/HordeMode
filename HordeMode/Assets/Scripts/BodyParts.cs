@@ -40,6 +40,7 @@ public sealed class BodyParts : MonoBehaviour
 	{
 		public SkinnedMeshRenderer rend;
 		public Rigidbody rigid;
+		public Transform parent;
 		public Transform rootBone;
 		public BoxCollider coll;
 	}
@@ -51,6 +52,7 @@ public sealed class BodyParts : MonoBehaviour
 		public bool isAttached;
 		public NodeData attached = new NodeData();
 		public NodeData detached = new NodeData();
+		public Transform detachedParent;
 
 		public int hitPoints;
 	}
@@ -61,7 +63,7 @@ public sealed class BodyParts : MonoBehaviour
 		{
 			items.FillNew();
 		}
-		
+
 #if UNITY_EDITOR
 		[CustomPropertyDrawer(typeof(Parts))]
 		class ItemsDrawer : Drawer
@@ -125,13 +127,14 @@ public sealed class BodyParts : MonoBehaviour
 			data.detached.rigid = data.detached.rootBone.gameObject.AddComponent<Rigidbody>();
 
 			// Detached arts needs to be in root, since parts are childed under eachother
-			data.detached.rootBone.parent = rigidRend.transform.parent;
+			data.detachedParent = rigidRend.transform.parent;
+			data.detached.rootBone.parent = data.detachedParent;
 
 			attachedCollToPart[data.attached.coll] = data;
-        }
+		}
 
 		ReattachAll();
-    }
+	}
 
 	void SetupNode(SkinnedMeshRenderer rend, NodeData nodeData)
 	{
@@ -160,9 +163,27 @@ public sealed class BodyParts : MonoBehaviour
 		}
 	}
 
-	public void DetachAll()
+	public void DetachAll(Vector3? explosionOrigin = null, float? explosionForce = null, float? explosionRadius = null)
 	{
 		SetAllAttached(false);
+
+		if(explosionForce != null)
+		{
+			Vector3 origin = explosionOrigin ?? parts[PartKind.Torso].detached.coll.bounds.center;
+
+			for(int i = 0; i < parts.items.Length; i++)
+			{
+				PartData partData = parts.items[i];
+				partData.detached.rigid.AddExplosionForce(
+					explosionForce.Value,
+					origin,
+					explosionRadius ?? 3.0f,
+					upwardsModifier: 1.0f,
+					mode: ForceMode.Impulse
+				);
+
+			}
+		}
 	}
 
 	public void ReattachAll()
@@ -170,9 +191,18 @@ public sealed class BodyParts : MonoBehaviour
 		SetAllAttached(true);
 	}
 
-	public void Detach(PartData partData)
+	public void Detach(PartData partData, Vector3? worldForce = null)
 	{
 		SetAttached(partData, false);
+		if(worldForce != null)
+		{
+			ApplyForce(partData, worldForce.Value);
+		}
+	}
+
+	void ApplyForce(PartData partData, Vector3 worldForce)
+	{
+		partData.detached.rigid.AddForce(worldForce, ForceMode.Impulse);
 	}
 
 	void SetAllAttached(bool attached)
@@ -193,10 +223,10 @@ public sealed class BodyParts : MonoBehaviour
 		part.hitPoints = attached ? partDef.hitPoints : 0;
 		part.isAttached = attached;
 
+		part.detached.rootBone.parent = attached ? part.detachedParent : null;
+
 		SetActive(part.attached, attached);
 		SetActive(part.detached, !attached);
-
-		part.detached.coll.enabled = false;
 	}
 
 	void SetActive(NodeData node, bool active)

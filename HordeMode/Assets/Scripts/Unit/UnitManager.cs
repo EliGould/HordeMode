@@ -115,6 +115,7 @@ public sealed partial class UnitManager : UnitManagerBase
 	public void DamageUnit(
 		Collider hitCollider,
 		int damage,
+		Ray? ray = null,
 		RaycastHit? hitInfo = null,
 		Unit attacker = null,
 		Weapon weapon = null
@@ -137,30 +138,51 @@ public sealed partial class UnitManager : UnitManagerBase
 
 		if(unit.parts.navMeshAgent != null)
 		{
-			unit.parts.navMeshAgent.velocity = Vector3.zero;
+			if(ray != null && weapon != null)
+			{
+				unit.parts.navMeshAgent.Move(ray.Value.direction * weapon.miscData.knockbackForce);
+			}
 		}
 
 		if(newHp == 0)
 		{
 			if(partDef.lifeCritical)
 			{
-				KillUnit(unit);
+				Vector3? killPoint = hitInfo == null ? null : (Vector3?)hitInfo.Value.point;
+				float? killForce = weapon == null ? null : (float?)weapon.miscData.impactForce;
+				KillUnit(unit, killPoint, killForce);
 			}
 			else
 			{
-				bodyParts.Detach(partData);
+				Vector3? worldForce = null;
+
+				if(ray != null)
+				{
+					worldForce = ray.Value.direction * weapon.miscData.impactForce;
+				}
+
+				bodyParts.Detach(partData, worldForce);
 			}
 		}
 	}
 
-	void KillUnit(Unit unit)
+	void KillUnit(Unit unit, Vector3? killPoint = null, float? killForce = null)
 	{
 		Dbg.Log("{0} dies!", GarbageCache.GetName(unit));
-		unit.parts.bodyParts.DetachAll();
+		unit.parts.bodyParts.DetachAll(
+			killPoint,
+			killForce
+		);
 		Weapon wieldingWeapon = unit.manState.weaponData.wieldingWeapon;
 		if(wieldingWeapon != null)
 		{
 			wieldingWeapon.SetWielder(null);
+		}
+
+		NavMeshAgent navAgent = unit.parts.navMeshAgent;
+		if(navAgent != null)
+		{
+			navAgent.enabled = false;
 		}
 	}
 
@@ -339,11 +361,15 @@ public sealed partial class UnitManager : UnitManagerBase
 
 	void UpdatePathing(Unit unit)
 	{
-		if(unit.parts.navMeshAgent == null) { return; }
+		NavMeshAgent navAgent = unit.parts.navMeshAgent;
+
+		if(navAgent == null || !navAgent.isActiveAndEnabled)
+		{
+			return;
+		}
 
 		const float epsilon = 0.001f;
 
-		NavMeshAgent navAgent = unit.parts.navMeshAgent;
 		Unit.State.Persistent persistent = unit.state.persistent;
 
 		if(persistent.navTarget == null)
