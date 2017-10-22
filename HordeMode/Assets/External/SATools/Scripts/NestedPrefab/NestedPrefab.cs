@@ -13,7 +13,6 @@ public partial class NestedPrefab : MonoBehaviour
 	[Flags]
 	enum InheritFlags
 	{
-		None = 0,
 		StaticFlags = 1 << 0,
 		Tag = 1 << 1,
 		Layer = 1 << 2,
@@ -27,7 +26,7 @@ public partial class NestedPrefab : MonoBehaviour
 	GameObject prefab;
 
 	// What flags should all children inherit?
-	[SerializeField]
+	[SerializeField, EnumFlags]
 	InheritFlags inheritFlags = InheritFlags.StaticFlags;
 
 	[SerializeField]
