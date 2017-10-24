@@ -72,5 +72,5 @@ MonoBehaviour:
     overrideMaterials: 0
     materials: []
     useSharedMaterial: 0
-    generateMeshCollider: 0
+    generateMeshCollider: 1
     physicsMaterial: {fileID: 0}
