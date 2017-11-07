@@ -25,7 +25,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &4776484417677578
 Transform:
@@ -54,6 +54,15 @@ MonoBehaviour:
   prefab: {fileID: 100002, guid: fa018bdb02c62a346a16b0bea7a0aa63, type: 3}
   inheritFlags: 1
   instantiated: {fileID: 0}
+  positionOffset:
+    use: 0
+    val: {x: 0, y: 0, z: 0}
+  rotationOffset:
+    use: 0
+    val: {x: 0, y: 0, z: 0}
+  localScale:
+    use: 1
+    val: {x: 1, y: 1, z: 1}
   animationUpdateMode: 0
   animationCullingMode: 2
   controller: {fileID: 0}
