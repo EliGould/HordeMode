@@ -25,6 +25,8 @@ public sealed partial class UnitManager : UnitManagerBase
     const float maxRotationX = 320;
     const float minRotationX = 40;
 
+    const float rotationFactor = 2f;
+
     #endregion // Fields
 
     #region Properties
@@ -329,7 +331,7 @@ public sealed partial class UnitManager : UnitManagerBase
             vel.y = 0.0f;
         }
 
-        Vector2 aimVector = state.momentary.aimInput;
+        Vector2 aimVector = state.momentary.aimInput * rotationFactor;
 
         if (unit.parts.camera != null)
         {
