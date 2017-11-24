@@ -20,7 +20,9 @@ public sealed class PlayerQuirk : UnitQuirk
 		public InputActionField jump;
 		[SerializeField]
 		public InputActionField fire;
-	}
+        [SerializeField]
+        public InputActionField changeWeapon;
+    }
 #pragma warning restore 0649
 	#endregion // Serialized Types
 	#endregion // Types
@@ -48,6 +50,7 @@ public sealed class PlayerQuirk : UnitQuirk
 		momentary.aimInput = inputMan.GetAction(input, inputData.aim).axis2D;
 		momentary.jumpInput = inputMan.GetAction(input, inputData.jump).buttonDown;
 		momentary.fireInput = inputMan.GetAction(input, inputData.fire).buttonDown;
+        momentary.weaponChangeInput = inputMan.GetAction(input, inputData.changeWeapon).buttonDown;
 	}
 	#endregion // Methods
 }

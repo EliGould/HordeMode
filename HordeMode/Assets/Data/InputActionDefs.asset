@@ -28,3 +28,7 @@ MonoBehaviour:
     kind: 0
     rewiredAction1: 5
     rewiredAction2: 0
+  - name: ChangeWeapon
+    kind: 0
+    rewiredAction1: 6
+    rewiredAction2: 0

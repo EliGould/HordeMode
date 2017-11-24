@@ -437,6 +437,11 @@ public sealed partial class UnitManager : UnitManagerBase
         {
             weaponData.wieldingWeapon.Fire();
         }
+
+        if (unit.state.momentary.weaponChangeInput)
+        {
+            weaponData.wieldingWeapon.Fire();
+        }
     }
     #endregion // Updating
 

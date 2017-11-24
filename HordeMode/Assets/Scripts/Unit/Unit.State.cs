@@ -37,6 +37,7 @@ public sealed partial class Unit : UnitBase
 			public Vector2 aimInput;
 			public bool fireInput;
 			public bool jumpInput;
+            public bool weaponChangeInput;
 
 			public bool obeyGravity;
 
