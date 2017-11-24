@@ -21,6 +21,10 @@ public sealed partial class UnitManager : UnitManagerBase
 	#endregion // Serialized Fields
 
 	Dictionary<Collider, Unit> collToUnit = new Dictionary<Collider, Unit>();
+
+    const float maxRotationX = 320;
+    const float minRotationX = 40;
+
 	#endregion // Fields
 
 	#region Properties
@@ -329,10 +333,15 @@ public sealed partial class UnitManager : UnitManagerBase
 
 		if(unit.parts.camera != null)
 		{
-			unit.parts.camera.transform.Rotate(
+            float rotationX = unit.parts.camera.transform.rotation.eulerAngles.x;
+
+            if ((rotationX + aimVector.y) <= minRotationX || (rotationX + aimVector.y) >= maxRotationX)
+            {
+            unit.parts.camera.transform.Rotate(
 				aimVector.y, 0.0f, 0.0f
 			);
-		}
+            }
+        }
 
 		state.persistent.velocity = vel;
 
