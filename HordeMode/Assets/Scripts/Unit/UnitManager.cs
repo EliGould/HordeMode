@@ -22,11 +22,6 @@ public sealed partial class UnitManager : UnitManagerBase
 
     Dictionary<Collider, Unit> collToUnit = new Dictionary<Collider, Unit>();
 
-    const float maxRotationX = 320;
-    const float minRotationX = 40;
-
-    const float rotationFactor = 2f;
-
     #endregion // Fields
 
     #region Properties
@@ -331,13 +326,13 @@ public sealed partial class UnitManager : UnitManagerBase
             vel.y = 0.0f;
         }
 
-        Vector2 aimVector = state.momentary.aimInput * rotationFactor;
+        Vector2 aimVector = state.momentary.aimInput * UnitSettings.AimSettings.sensitivity;
 
         if (unit.parts.camera != null)
         {
-            float rotationX = unit.parts.camera.transform.rotation.eulerAngles.x;
+            float rotationX = unit.parts.camera.transform.localRotation.eulerAngles.x;
 
-            if ((rotationX + aimVector.y) <= minRotationX || (rotationX + aimVector.y) >= maxRotationX)
+            if ((rotationX + aimVector.y) <= UnitSettings.AimSettings.minRotationX || (rotationX + aimVector.y) >= UnitSettings.AimSettings.maxRotationX)
             {
                 unit.parts.camera.transform.Rotate(
                     aimVector.y, 0.0f, 0.0f
@@ -440,7 +435,7 @@ public sealed partial class UnitManager : UnitManagerBase
 
         if (unit.state.momentary.weaponChangeInput)
         {
-            weaponData.wieldingWeapon.Fire();
+            weaponData.wieldingWeapon.SwapWeapon();
         }
     }
     #endregion // Updating
