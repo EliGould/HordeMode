@@ -148,6 +148,11 @@ MonoBehaviour:
     hitLayers:
       serializedVersion: 2
       m_Bits: 768
+  bulletData:
+    Bullet_Emitter: {fileID: 1993735154294056, guid: efa5d27639e7bf04194dabafe1f25d25,
+      type: 2}
+    Bullet: {fileID: 1401328279597960, guid: 4d9841a65f8b5f9408dc05432445c94c, type: 2}
+    Bullet_Forward_Force: 100
 --- !u!114 &114626321411707160
 MonoBehaviour:
   m_ObjectHideFlags: 1
