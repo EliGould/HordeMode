@@ -37,15 +37,21 @@ public sealed class Weapon : SafeBehaviour
         GameObject bulletSpawn;
         [SerializeField]
         float bulletSpeed;
+        [SerializeField]
+        bool useGravity;
 
         public void Fire()
         {
-            var bullet = (GameObject)Instantiate(
+            var bullet = Instantiate(
                 bulletPrefab,
-                bulletSpawn.transform.position,
-                bulletSpawn.transform.rotation);
+                bulletSpawn.transform.GetChild(0).position,
+                bulletSpawn.transform.GetChild(0).rotation);
 
-            bullet.GetComponent<Rigidbody>().velocity = bullet.transform.forward * bulletSpeed;
+            bullet.GetComponent<Rigidbody>().useGravity = useGravity;
+
+            bullet.transform.Rotate(90, 0, 0);
+
+            bullet.GetComponent<Rigidbody>().velocity = bullet.transform.up * bulletSpeed;
 
             Destroy(bullet, 2.0f);
         }
