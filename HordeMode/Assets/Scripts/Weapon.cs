@@ -29,14 +29,26 @@ public sealed class Weapon : SafeBehaviour
     }
 
     [Serializable]
-    class BulletData
+    class Projectile
     {
         [SerializeField]
-        public GameObject Bullet_Emitter;
+        GameObject bulletPrefab;
         [SerializeField]
-        public GameObject Bullet;
+        GameObject bulletSpawn;
         [SerializeField]
-        public float Bullet_Forward_Force;
+        float bulletSpeed;
+
+        public void Fire()
+        {
+            var bullet = (GameObject)Instantiate(
+                bulletPrefab,
+                bulletSpawn.transform.position,
+                bulletSpawn.transform.rotation);
+
+            bullet.GetComponent<Rigidbody>().velocity = bullet.transform.forward * bulletSpeed;
+
+            Destroy(bullet, 2.0f);
+        }
     }
 
     [Serializable]
@@ -71,7 +83,7 @@ public sealed class Weapon : SafeBehaviour
     [SerializeField, EnumRestrict("kind", Kind.Ray)]
     RayData rayData;
     [SerializeField, EnumRestrict("kind", Kind.Bullet)]
-    BulletData bulletData;
+    Projectile projectile;
 #pragma warning restore 0649
     #endregion // Serialized Fields
 
@@ -119,7 +131,7 @@ public sealed class Weapon : SafeBehaviour
                 FireRay();
                 break;
             case Kind.Bullet:
-                FireBullet();
+                projectile.Fire();
                 break;
         }
 
@@ -172,32 +184,6 @@ public sealed class Weapon : SafeBehaviour
             hit ? Color.green : Color.red,
             3.0f
         );
-    }
-
-    void FireBullet()
-    {
-        GameObject Temporary_Bullet_Handler;
-        Temporary_Bullet_Handler = Instantiate(bulletData.Bullet, bulletData.Bullet_Emitter.transform.position, bulletData.Bullet_Emitter.transform.rotation) as GameObject;
-
-        Rigidbody Temporary_RigidBody;
-        Temporary_RigidBody = Temporary_Bullet_Handler.GetComponent<Rigidbody>();
-
-        Temporary_RigidBody.AddForce(transform.forward * bulletData.Bullet_Forward_Force);
-
-        Destroy(Temporary_Bullet_Handler, 10.0f);
-    }
-
-    public void SwapWeapon()
-    {
-        if(kind == Kind.Bullet)
-        {
-            kind = Kind.Ray;
-        }
-
-        else
-        {
-            kind = Kind.Bullet;
-        }
     }
 
     IEnumerator CooldownRoutine()

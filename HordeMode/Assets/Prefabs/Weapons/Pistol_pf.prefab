@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4500810034919930}
   m_Layer: 10
-  m_Name: RayOrigin
+  m_Name: ShotOrigin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67,7 +67,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1689377119371746}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.5686417, y: 1.566133, z: -7.099023}
+  m_LocalPosition: {x: -1.6790147, y: -0.029999971, z: -9.446882}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4500810034919930}
@@ -108,8 +108,8 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1689377119371746}
   serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
+  m_Mass: 5
+  m_Drag: 100
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
@@ -127,7 +127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e2b32e7b936ab419c8999de5a3edfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  kind: 0
+  kind: 1
   damageData:
     damage: 1
   miscData:
@@ -148,11 +148,11 @@ MonoBehaviour:
     hitLayers:
       serializedVersion: 2
       m_Bits: 768
-  bulletData:
-    Bullet_Emitter: {fileID: 1993735154294056, guid: efa5d27639e7bf04194dabafe1f25d25,
+  projectile:
+    bulletPrefab: {fileID: 1491117566711964, guid: ad2be0203e8c5154bb28ff707b73edf8,
       type: 2}
-    Bullet: {fileID: 1401328279597960, guid: 4d9841a65f8b5f9408dc05432445c94c, type: 2}
-    Bullet_Forward_Force: 100
+    bulletSpawn: {fileID: 1689377119371746}
+    bulletSpeed: 10
 --- !u!114 &114626321411707160
 MonoBehaviour:
   m_ObjectHideFlags: 1

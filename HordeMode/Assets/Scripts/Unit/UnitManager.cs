@@ -435,7 +435,7 @@ public sealed partial class UnitManager : UnitManagerBase
 
         if (unit.state.momentary.weaponChangeInput)
         {
-            weaponData.wieldingWeapon.SwapWeapon();
+            //Switch through weapons here
         }
     }
     #endregion // Updating
