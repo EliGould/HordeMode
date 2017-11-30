@@ -54,6 +54,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4186147092272568}
   - component: {fileID: 54132563239234502}
+  - component: {fileID: 114373732241240760}
+  - component: {fileID: 135161717463245670}
   m_Layer: 0
   m_Name: BulletPistol_pf
   m_TagString: Untagged
@@ -200,3 +202,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &114373732241240760
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1491117566711964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4db3ce0c118bb72418361fe288441604, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageFactor: 1
+--- !u!135 &135161717463245670
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1491117566711964}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.01
+  m_Center: {x: 0, y: 0, z: 0}

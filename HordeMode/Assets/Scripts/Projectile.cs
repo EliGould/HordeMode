@@ -4,7 +4,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-
 public sealed class Projectile : MonoBehaviour
 {
     #region Types
@@ -19,31 +18,28 @@ public sealed class Projectile : MonoBehaviour
 #pragma warning disable 0649
 
     [SerializeField]
-    GameObject bulletPrefab;
-    [SerializeField]
-    Transform bulletSpawn;
-    [SerializeField]
-    float bulletSpeed;
+    public int damageFactor;
+
+    Weapon weapon;
 
 #pragma warning restore 0649
     #endregion // Serialized Fields
-
     #endregion // Fields
 
     #region Properties
     #endregion // Properties
 
     #region Methods
-    public void Fire()
+
+    void OnCollisionEnter(Collision collision)
     {
-        var bullet = (GameObject)Instantiate(
-            bulletPrefab,
-            bulletSpawn.position,
-            bulletSpawn.rotation);
+        weapon.DamageByProjectile(collision, damageFactor);
+        Destroy(this.gameObject);
+    }
 
-        bullet.GetComponent<Rigidbody>().velocity = bullet.transform.forward * bulletSpeed;
-
-        Destroy(bullet, 2.0f);
+    public void SetWeapon(Weapon weapon)
+    {
+        this.weapon = weapon;
     }
     #endregion // Methods
 }

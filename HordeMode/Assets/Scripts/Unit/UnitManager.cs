@@ -116,8 +116,8 @@ public sealed partial class UnitManager : UnitManagerBase
     public void DamageUnit(
         Collider hitCollider,
         int damage,
-        Ray? ray = null,
-        RaycastHit? hitInfo = null,
+        Vector3 direction,
+        Vector3 point,
         Unit attacker = null,
         Weapon weapon = null
     )
@@ -139,9 +139,12 @@ public sealed partial class UnitManager : UnitManagerBase
 
         if (unit.parts.navMeshAgent != null)
         {
-            if (ray != null && weapon != null)
+            if (direction != Vector3.zero && weapon != null)
             {
-                unit.parts.navMeshAgent.Move(ray.Value.direction * weapon.miscData.knockbackForce);
+                //Use Vector instead of ray here 
+                unit.parts.navMeshAgent.Move(direction * weapon.miscData.knockbackForce);
+                Debug.Log("Direction " + direction * weapon.miscData.knockbackForce);
+                //unit.parts.navMeshAgent.Move(ray.Value.direction * weapon.miscData.knockbackForce);
             }
         }
 
@@ -149,7 +152,8 @@ public sealed partial class UnitManager : UnitManagerBase
         {
             if (partDef.lifeCritical)
             {
-                Vector3? killPoint = hitInfo == null ? null : (Vector3?)hitInfo.Value.point;
+                //Vector3? killPoint = hitInfo == null ? null : (Vector3?)hitInfo.Value.point;
+                Vector3 killPoint = point;
                 float? killForce = weapon == null ? null : (float?)weapon.miscData.impactForce;
                 KillUnit(unit, killPoint, killForce);
             }
@@ -157,9 +161,11 @@ public sealed partial class UnitManager : UnitManagerBase
             {
                 Vector3? worldForce = null;
 
-                if (ray != null)
+                if (direction != Vector3.zero)
                 {
-                    worldForce = ray.Value.direction * weapon.miscData.impactForce;
+                    //Use Vector instead of ray here
+                    worldForce = direction * weapon.miscData.impactForce;
+                    //worldForce = ray.Value.direction * weapon.miscData.impactForce;
                 }
 
                 bodyParts.Detach(partData, worldForce);

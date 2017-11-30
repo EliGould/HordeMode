@@ -36,7 +36,6 @@ GameObject:
   - component: {fileID: 4087993221750702}
   - component: {fileID: 54079365847418040}
   - component: {fileID: 114423322806935838}
-  - component: {fileID: 135808679303551256}
   m_Layer: 10
   m_Name: Pistol_pf
   m_TagString: Untagged
@@ -139,7 +138,7 @@ MonoBehaviour:
       kind: 0
       parent: {fileID: 0}
       childName: 
-      findInChildren: 1
+      findInChildren: 0
       findInactive: 0
       directComponent: {fileID: 4500810034919930}
       _localOffset: {x: 0, y: 0, z: 0}
@@ -148,12 +147,15 @@ MonoBehaviour:
     hitLayers:
       serializedVersion: 2
       m_Bits: 768
-  projectile:
+  projectileData:
     bulletPrefab: {fileID: 1491117566711964, guid: ad2be0203e8c5154bb28ff707b73edf8,
       type: 2}
     bulletSpawn: {fileID: 1689377119371746}
-    bulletSpeed: 10
+    bulletSpeed: 30
     useGravity: 0
+    hitLayers:
+      serializedVersion: 2
+      m_Bits: 768
 --- !u!114 &114626321411707160
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -188,15 +190,3 @@ MonoBehaviour:
     useSharedMaterial: 0
     generateMeshCollider: 0
     physicsMaterial: {fileID: 0}
---- !u!135 &135808679303551256
-SphereCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1689377119371746}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.2
-  m_Center: {x: 0, y: 0, z: 0}

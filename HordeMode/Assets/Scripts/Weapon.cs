@@ -1,8 +1,7 @@
-﻿using UnityEngine;
-using UE = UnityEngine;
-using System;
+﻿using System;
 using System.Collections;
-using System.Collections.Generic;
+using UnityEngine;
+using UE = UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public sealed class Weapon : SafeBehaviour
@@ -29,32 +28,18 @@ public sealed class Weapon : SafeBehaviour
     }
 
     [Serializable]
-    class Projectile
+    class ProjectileData
     {
         [SerializeField]
-        GameObject bulletPrefab;
+        public GameObject bulletPrefab;
         [SerializeField]
-        GameObject bulletSpawn;
+        public GameObject bulletSpawn;
         [SerializeField]
-        float bulletSpeed;
+        public float bulletSpeed;
         [SerializeField]
-        bool useGravity;
-
-        public void Fire()
-        {
-            var bullet = Instantiate(
-                bulletPrefab,
-                bulletSpawn.transform.GetChild(0).position,
-                bulletSpawn.transform.GetChild(0).rotation);
-
-            bullet.GetComponent<Rigidbody>().useGravity = useGravity;
-
-            bullet.transform.Rotate(90, 0, 0);
-
-            bullet.GetComponent<Rigidbody>().velocity = bullet.transform.up * bulletSpeed;
-
-            Destroy(bullet, 2.0f);
-        }
+        public bool useGravity;
+        [SerializeField]
+        public LayerMask hitLayers;
     }
 
     [Serializable]
@@ -73,7 +58,7 @@ public sealed class Weapon : SafeBehaviour
     public enum Kind
     {
         Ray,
-        Bullet
+        Projectile
     }
     #endregion // Types
 
@@ -88,8 +73,8 @@ public sealed class Weapon : SafeBehaviour
     public MiscData miscData;
     [SerializeField, EnumRestrict("kind", Kind.Ray)]
     RayData rayData;
-    [SerializeField, EnumRestrict("kind", Kind.Bullet)]
-    Projectile projectile;
+    [SerializeField, EnumRestrict("kind", Kind.Projectile)]
+    ProjectileData projectileData;
 #pragma warning restore 0649
     #endregion // Serialized Fields
 
@@ -136,8 +121,8 @@ public sealed class Weapon : SafeBehaviour
             case Kind.Ray:
                 FireRay();
                 break;
-            case Kind.Bullet:
-                projectile.Fire();
+            case Kind.Projectile:
+                FireProjectile();
                 break;
         }
 
@@ -168,6 +153,7 @@ public sealed class Weapon : SafeBehaviour
 
             if (attachedRigid != null)
             {
+                Debug.Log(ray.direction);
                 attachedRigid.AddForce(
                     ray.direction * miscData.impactForce,
                     ForceMode.Impulse
@@ -177,9 +163,9 @@ public sealed class Weapon : SafeBehaviour
             UnitManager.instance.DamageUnit(
                 hitInfo.collider,
                 damageData.damage,
+                ray.direction,
+                hitInfo.point,
                 attacker: wielder,
-                ray: ray,
-                hitInfo: hitInfo,
                 weapon: this
             );
         }
@@ -191,6 +177,47 @@ public sealed class Weapon : SafeBehaviour
             3.0f
         );
     }
+
+    void FireProjectile()
+    {
+        var bullet = Instantiate(
+            projectileData.bulletPrefab,
+            projectileData.bulletSpawn.transform.GetChild(0).position,
+            projectileData.bulletSpawn.transform.GetChild(0).rotation);
+
+        bullet.GetComponent<Projectile>().SetWeapon(this);
+        bullet.GetComponent<Rigidbody>().useGravity = projectileData.useGravity;
+
+        bullet.transform.Rotate(90, 0, 0);
+
+        bullet.GetComponent<Rigidbody>().velocity = bullet.transform.up * projectileData.bulletSpeed;
+
+        //Pool bullets later!
+        Destroy(bullet, 2.0f);
+    }
+
+    public void DamageByProjectile(Collision coll, int damageFactor)
+    {
+        if (coll.gameObject != wielder)
+        {
+            Vector3 direction = Vector3.Normalize(coll.collider.transform.position - wielder.transform.position);
+
+            Vector3 point = coll.contacts[0].point;
+
+            UE.Debug.DrawLine(coll.collider.transform.position, wielder.transform.position, Color.blue);
+
+
+            UnitManager.instance.DamageUnit(
+                    coll.collider,
+                    damageData.damage * damageFactor,
+                    direction,
+                    point,
+                    attacker: wielder,
+                    weapon: this
+                );
+        }
+    }
+
 
     IEnumerator CooldownRoutine()
     {
