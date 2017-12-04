@@ -31,10 +31,25 @@ public sealed class Projectile : MonoBehaviour
 
     #region Methods
 
+    void OnEnable()
+    {
+        Invoke("DestroyProjectile", time: 2.0f);
+    }
+
+    void DestroyProjectile()
+    {
+        gameObject.SetActive(false);
+    }
+
+    private void OnDisable()
+    {
+        CancelInvoke();
+    }
+
     void OnCollisionEnter(Collision collision)
     {
         weapon.DamageByProjectile(collision, damageFactor);
-        Destroy(this.gameObject);
+        gameObject.SetActive(false);
     }
 
     public void SetWeapon(Weapon weapon)

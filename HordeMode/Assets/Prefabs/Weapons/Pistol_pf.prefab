@@ -153,9 +153,8 @@ MonoBehaviour:
     bulletSpawn: {fileID: 1689377119371746}
     bulletSpeed: 30
     useGravity: 0
-    hitLayers:
-      serializedVersion: 2
-      m_Bits: 768
+    pooledAmount: 10
+    projectilePool: []
 --- !u!114 &114626321411707160
 MonoBehaviour:
   m_ObjectHideFlags: 1

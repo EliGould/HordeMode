@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UE = UnityEngine;
 
@@ -39,7 +40,9 @@ public sealed class Weapon : SafeBehaviour
         [SerializeField]
         public bool useGravity;
         [SerializeField]
-        public LayerMask hitLayers;
+        public int pooledAmount;
+        public List<GameObject> projectilePool;
+
     }
 
     [Serializable]
@@ -94,7 +97,24 @@ public sealed class Weapon : SafeBehaviour
 
     protected override void AtSetup()
     {
-        rayData.origin.SetupWithSelf(transform);
+        if (kind == Kind.Projectile)
+        {
+            projectileData.projectilePool = new List<GameObject>();
+            for (int i = 0; i < projectileData.pooledAmount; i++)
+            {
+                GameObject bullet = Instantiate(projectileData.bulletPrefab, projectileData.bulletSpawn.transform.GetChild(0).position, Quaternion.Euler(90, 0, 0));
+                bullet.GetComponent<Projectile>().SetWeapon(this);
+                bullet.GetComponent<Rigidbody>().useGravity = projectileData.useGravity;
+
+                bullet.SetActive(false);
+                projectileData.projectilePool.Add(bullet);
+            }
+        }
+
+        else if (kind == Kind.Ray)
+        {
+            rayData.origin.SetupWithSelf(transform);
+        }
     }
 
     public void SetWielder(Unit wielder)
@@ -180,20 +200,23 @@ public sealed class Weapon : SafeBehaviour
 
     void FireProjectile()
     {
-        var bullet = Instantiate(
-            projectileData.bulletPrefab,
-            projectileData.bulletSpawn.transform.GetChild(0).position,
-            projectileData.bulletSpawn.transform.GetChild(0).rotation);
+        for (int i = 0; i < projectileData.projectilePool.Count; i++)
+        {
+            if (!projectileData.projectilePool[i].activeInHierarchy)
+            {
+                projectileData.projectilePool[i].transform.position = projectileData.bulletSpawn.transform.GetChild(0).position;
+                projectileData.projectilePool[i].transform.rotation = projectileData.bulletSpawn.transform.GetChild(0).rotation * Quaternion.Euler(90, 0, 0);
 
-        bullet.GetComponent<Projectile>().SetWeapon(this);
-        bullet.GetComponent<Rigidbody>().useGravity = projectileData.useGravity;
+                projectileData.projectilePool[i].GetComponent<Rigidbody>().velocity = Vector3.zero;
+                projectileData.projectilePool[i].GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+                projectileData.projectilePool[i].GetComponent<Rigidbody>().velocity = projectileData.projectilePool[i].transform.up * projectileData.bulletSpeed;
 
-        bullet.transform.Rotate(90, 0, 0);
+                projectileData.projectilePool[i].SetActive(true);
+                break;
+            }
+        }
 
-        bullet.GetComponent<Rigidbody>().velocity = bullet.transform.up * projectileData.bulletSpeed;
 
-        //Pool bullets later!
-        Destroy(bullet, 2.0f);
     }
 
     public void DamageByProjectile(Collision coll, int damageFactor)
