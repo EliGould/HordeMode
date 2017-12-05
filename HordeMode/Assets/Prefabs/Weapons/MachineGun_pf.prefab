@@ -166,7 +166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d6a5bf0fb1548749977bf6fd9196928, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 100000, guid: c52425aa7c1a7b849a483f7cc99974de, type: 3}
+  prefab: {fileID: 100000, guid: c8985f030f8270f4597f659e3cba7c10, type: 3}
   inheritFlags: 5
   instantiated: {fileID: 0}
   positionOffset:

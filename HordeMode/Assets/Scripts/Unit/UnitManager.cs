@@ -205,6 +205,17 @@ public sealed partial class UnitManager : UnitManagerBase
         weapon.transform.localPosition = Vector3.zero;
         weapon.transform.localRotation = Quaternion.identity;
     }
+
+    public void switchWeapon(Unit unit)
+    {
+        //Create some kind of delay for weapon change
+        unit.parts.weapons[unit.parts.weaponIndex].gameObject.SetActive(false);
+        unit.parts.weaponIndex = (unit.parts.weaponIndex + 1) % unit.parts.weapons.Count;
+        unit.parts.weapons[unit.parts.weaponIndex].gameObject.SetActive(true);
+        SetWeapon(unit, unit.parts.weapons[unit.parts.weaponIndex]);
+        DbgValues.Set(unit, "Weapon Index", unit.parts.weaponIndex);
+    }
+
     #endregion // Interface
 
     #region Updating
@@ -435,7 +446,7 @@ public sealed partial class UnitManager : UnitManagerBase
 
         if (unit.state.momentary.weaponChangeInput)
         {
-            //Switch through weapons here
+            switchWeapon(unit);
         }
     }
     #endregion // Updating
@@ -456,11 +467,14 @@ public sealed partial class UnitManager : UnitManagerBase
             }
         }
 
-        Weapon startWeaponPf = unit.parts.startWeapon;
-        if (startWeaponPf != null)
+        if (unit.parts.weapons.Count != 0)
         {
-            var startWeapon = Instantiate(startWeaponPf);
-            SetWeapon(unit, startWeapon);
+            for (int i = 0; i < unit.parts.weapons.Count; i++)
+            {
+                unit.parts.weapons[i] = Instantiate(unit.parts.weapons[i]);
+            }
+
+            SetWeapon(unit, unit.parts.weapons[0]);
         }
     }
 

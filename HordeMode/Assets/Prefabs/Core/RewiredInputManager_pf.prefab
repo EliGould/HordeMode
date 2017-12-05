@@ -297,7 +297,7 @@ MonoBehaviour:
       _buttonDoublePressSpeed: 0.3
       _buttonShortPressTime: 0.25
       _buttonShortPressExpiresIn: 0
-      _buttonLongPressTime: 1
+      _buttonLongPressTime: 3
       _buttonLongPressExpiresIn: 0
       _buttonDeadZone: 0.5
       _buttonDownBuffer: 0

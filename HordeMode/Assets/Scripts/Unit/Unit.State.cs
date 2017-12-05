@@ -71,8 +71,6 @@ public sealed partial class Unit : UnitBase
         {
             public Transform parentNode;
             public Weapon wieldingWeapon;
-
-            //Here weapon collection of weapons being held by unit?
         }
 
         public GroundCheckData groundCheck = new GroundCheckData();
