@@ -102,7 +102,7 @@ public sealed class Weapon : SafeBehaviour
             projectileData.projectilePool = new List<GameObject>();
             for (int i = 0; i < projectileData.pooledAmount; i++)
             {
-                GameObject bullet = Instantiate(projectileData.bulletPrefab, projectileData.bulletSpawn.transform.GetChild(0).position, Quaternion.Euler(90, 0, 0));
+                GameObject bullet = Instantiate(projectileData.bulletPrefab, projectileData.bulletSpawn.transform.GetChild(0).position, projectileData.bulletPrefab.transform.rotation);
                 bullet.GetComponent<Projectile>().SetWeapon(this);
                 bullet.GetComponent<Rigidbody>().useGravity = projectileData.useGravity;
 
@@ -205,11 +205,11 @@ public sealed class Weapon : SafeBehaviour
             if (!projectileData.projectilePool[i].activeInHierarchy)
             {
                 projectileData.projectilePool[i].transform.position = projectileData.bulletSpawn.transform.GetChild(0).position;
-                projectileData.projectilePool[i].transform.rotation = projectileData.bulletSpawn.transform.GetChild(0).rotation * Quaternion.Euler(90, 0, 0);
+                projectileData.projectilePool[i].transform.rotation = projectileData.bulletSpawn.transform.GetChild(0).rotation * projectileData.bulletPrefab.transform.rotation;
 
                 projectileData.projectilePool[i].GetComponent<Rigidbody>().velocity = Vector3.zero;
                 projectileData.projectilePool[i].GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
-                projectileData.projectilePool[i].GetComponent<Rigidbody>().velocity = projectileData.projectilePool[i].transform.up * projectileData.bulletSpeed;
+                projectileData.projectilePool[i].GetComponent<Rigidbody>().velocity = projectileData.bulletSpawn.transform.forward * projectileData.bulletSpeed;
 
                 projectileData.projectilePool[i].SetActive(true);
                 break;
