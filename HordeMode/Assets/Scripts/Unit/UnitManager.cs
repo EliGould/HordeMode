@@ -141,10 +141,7 @@ public sealed partial class UnitManager : UnitManagerBase
         {
             if (direction != Vector3.zero && weapon != null)
             {
-                //Use Vector instead of ray here 
                 unit.parts.navMeshAgent.Move(direction * weapon.miscData.knockbackForce);
-                Debug.Log("Direction " + direction * weapon.miscData.knockbackForce);
-                //unit.parts.navMeshAgent.Move(ray.Value.direction * weapon.miscData.knockbackForce);
             }
         }
 
@@ -152,7 +149,6 @@ public sealed partial class UnitManager : UnitManagerBase
         {
             if (partDef.lifeCritical)
             {
-                //Vector3? killPoint = hitInfo == null ? null : (Vector3?)hitInfo.Value.point;
                 Vector3 killPoint = point;
                 float? killForce = weapon == null ? null : (float?)weapon.miscData.impactForce;
                 KillUnit(unit, killPoint, killForce);
@@ -163,9 +159,7 @@ public sealed partial class UnitManager : UnitManagerBase
 
                 if (direction != Vector3.zero)
                 {
-                    //Use Vector instead of ray here
                     worldForce = direction * weapon.miscData.impactForce;
-                    //worldForce = ray.Value.direction * weapon.miscData.impactForce;
                 }
 
                 bodyParts.Detach(partData, worldForce);
