@@ -153,6 +153,13 @@ public sealed partial class App : AppBase
 		get { return Time.frameCount == instance.lastFixedFrame; }
 	}
 
+	// Is this the first FixedUpdate called this Frame?
+	public static bool firstFixedUpdate
+	{
+		get;
+		private set;
+	}
+
 	static App instance
 	{
 		get;
@@ -203,7 +210,7 @@ public sealed partial class App : AppBase
 		if(instance != this) { return; }
 
 		setupRoutine = StartCoroutine(SetupRoutine());
-    }
+	}
 
 	protected void OnDisable()
 	{
@@ -229,7 +236,15 @@ public sealed partial class App : AppBase
 
 	protected void FixedUpdate()
 	{
-		lastFixedFrame = Time.frameCount;
+		if(lastFixedFrame != Time.frameCount)
+		{
+			lastFixedFrame = Time.frameCount;
+			firstFixedUpdate = true;
+		}
+		else
+		{
+			firstFixedUpdate = false;
+		}
 
 		if(!isSetup || isLoading) { return; }
 
@@ -276,7 +291,7 @@ public sealed partial class App : AppBase
 		{
 			currentAppState.AtLateUpdate();
 		}
-    }
+	}
 
 #if !IS_RELEASE
 	protected void OnGUI()
@@ -284,7 +299,7 @@ public sealed partial class App : AppBase
 		AtGUI();
 	}
 #endif //!IS_RELEASE
-#endregion // Mono
+	#endregion // Mono
 
 	#region Methods
 	#region Lifecycle
@@ -358,7 +373,7 @@ public sealed partial class App : AppBase
 		{
 			currentAppState.AtPostRender();
 		}
-    }
+	}
 
 	void OnTimeScaleChanged(float newTimeScale)
 	{

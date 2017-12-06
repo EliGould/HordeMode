@@ -47,7 +47,7 @@ public sealed class PlayerManager : MonoBehaviour
 
 	InputManager inputMan;
 
-    int instanceIdCounter;
+	int instanceIdCounter;
 	#endregion // Fields
 
 	#region Static Properties
@@ -156,6 +156,6 @@ public sealed class PlayerManager : MonoBehaviour
 		allPlayers.Add(player);
 
 		return player;
-    }
+	}
 	#endregion // Methods
 }

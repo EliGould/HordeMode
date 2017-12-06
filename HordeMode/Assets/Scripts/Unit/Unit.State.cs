@@ -47,6 +47,7 @@ public sealed partial class Unit : UnitBase
                 aimInput = new Vector2();
                 fireInput = false;
                 jumpInput = false;
+                weaponChangeInput = false;
 
                 obeyGravity = true;
             }

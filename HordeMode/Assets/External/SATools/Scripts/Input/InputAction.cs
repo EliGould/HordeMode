@@ -42,10 +42,10 @@ public struct InputAction
 		{
 			switch(kind)
 			{
-			case Kind.Button: return boolValue;
-			case Kind.Axis: return Math.Abs(vectorValue.x) > 0.0f;
-			case Kind.Axis2D: return vectorValue.sqrMagnitude > 0.0f;
-			default: throw new Exception("Unhandled Kind");
+				case Kind.Button: return boolValue;
+				case Kind.Axis: return Math.Abs(vectorValue.x) > 0.0f;
+				case Kind.Axis2D: return vectorValue.sqrMagnitude > 0.0f;
+				default: throw new Exception("Unhandled Kind");
 			}
 		}
 	}
@@ -66,10 +66,10 @@ public struct InputAction
 		{
 			switch(kind)
 			{
-			case Kind.Button: return boolValue ? 1.0f : 0.0f;
-			case Kind.Axis: return vectorValue.x;
-			case Kind.Axis2D: return vectorValue.normalized.magnitude;
-			default: throw new Exception("Unhandled Kind");
+				case Kind.Button: return boolValue ? 1.0f : 0.0f;
+				case Kind.Axis: return vectorValue.x;
+				case Kind.Axis2D: return vectorValue.normalized.magnitude;
+				default: throw new Exception("Unhandled Kind");
 			}
 		}
 	}
@@ -80,11 +80,11 @@ public struct InputAction
 		{
 			switch(kind)
 			{
-			case Kind.Button: return new Vector2(boolValue ? 1.0f : 0.0f, 0.0f);
-			case Kind.Axis:
-			case Kind.Axis2D:
-				return vectorValue;
-			default: throw new Exception("Unhandled kind");
+				case Kind.Button: return new Vector2(boolValue ? 1.0f : 0.0f, 0.0f);
+				case Kind.Axis:
+				case Kind.Axis2D:
+					return vectorValue;
+				default: throw new Exception("Unhandled kind");
 			}
 		}
 	}

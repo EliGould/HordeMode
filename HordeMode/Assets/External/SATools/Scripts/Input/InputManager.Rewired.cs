@@ -33,7 +33,7 @@ public sealed partial class InputManager : InputManagerBase
 			{
 				var controller = controllers[z];
 				sysPlayerController.AddController(controller, removeFromOtherPlayers: false);
-            }
+			}
 		}
 
 		RE.ReInput.ControllerConnectedEvent += OnRewiredControllerConnected;

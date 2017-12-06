@@ -161,6 +161,11 @@ public sealed partial class App : AppBase
 
 	protected override void AtFixedUpdate()
 	{
+		if(firstFixedUpdate)
+		{
+			inputMan.SystemUpdate();
+		}
+
 		coroutines.SystemFixedUpdate();
 	}
 
