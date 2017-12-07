@@ -208,13 +208,11 @@ public sealed partial class UnitManager : UnitManagerBase
 
 	public void SwitchWeapon(Unit unit)
 	{
-		//Create some kind of delay for weapon change
-		//Make this a little cleaner and nicer, please! 
 		unit.parts.weapons[unit.parts.weaponIndex].gameObject.SetActive(false);
 		unit.parts.weaponIndex = (unit.parts.weaponIndex + 1) % unit.parts.weapons.Count;
 		unit.parts.weapons[unit.parts.weaponIndex].gameObject.SetActive(true);
+
 		SetWeapon(unit, unit.parts.weapons[unit.parts.weaponIndex]);
-		DbgValues.Set(unit, "Weapon Index", unit.parts.weaponIndex);
 	}
 
 	#endregion // Interface

@@ -92,8 +92,6 @@ public sealed partial class Unit : UnitBase
 		public NavMeshAgent navMeshAgent;
 		[SerializeField]
 		public BodyParts bodyParts;
-		[SerializeField, Prop(objRefRestrict: PropObjRefRestrict.OnlyAsset)]
-		public Weapon startWeapon;
 		[SerializeField]
 		public List<Weapon> weapons;
 		[SerializeField]
