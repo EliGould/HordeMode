@@ -221,24 +221,22 @@ public sealed class Weapon : SafeBehaviour
 
 	public void DamageByProjectile(Collision coll, int damageFactor)
 	{
-		if(coll.gameObject != wielder)
-		{
-			Vector3 direction = Vector3.Normalize(coll.collider.transform.position - wielder.transform.position);
+		Vector3 direction = Vector3.Normalize(coll.collider.transform.position - wielder.transform.position);
 
-			Vector3 point = coll.contacts[0].point;
+		Vector3 point = coll.contacts[0].point;
 
-			UE.Debug.DrawLine(coll.collider.transform.position, wielder.transform.position, Color.blue);
+		UE.Debug.DrawLine(coll.collider.transform.position, wielder.transform.position, Color.blue);
 
 
-			UnitManager.instance.DamageUnit(
-					coll.collider,
-					damageData.damage * damageFactor,
-					direction,
-					point,
-					attacker: wielder,
-					weapon: this
-				);
-		}
+		UnitManager.instance.DamageUnit(
+				coll.collider,
+				damageData.damage * damageFactor,
+				direction,
+				point,
+				attacker: wielder,
+				weapon: this
+			);
+
 	}
 
 

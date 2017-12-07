@@ -190,11 +190,6 @@ public sealed partial class UnitManager : UnitManagerBase
 	public void SetWeapon(Unit unit, Weapon weapon)
 	{
 		Unit.ManagerState.WeaponData weaponData = unit.manState.weaponData;
-		if(weaponData.wieldingWeapon != null)
-		{
-			weaponData.wieldingWeapon.transform.parent = null;
-			weaponData.wieldingWeapon.SetWielder(null);
-		}
 
 		weaponData.wieldingWeapon = weapon;
 		if(weapon == null) { return; }
@@ -473,7 +468,7 @@ public sealed partial class UnitManager : UnitManagerBase
 				unit.parts.weapons[i] = Instantiate(unit.parts.weapons[i]);
 			}
 
-			SetWeapon(unit, unit.parts.weapons[0]);
+			SetWeapon(unit, unit.parts.weapons[unit.parts.weaponIndex]);
 		}
 	}
 
