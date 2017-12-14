@@ -204,12 +204,14 @@ public sealed class Weapon : SafeBehaviour
 		{
 			if(!projectileData.projectilePool[i].activeInHierarchy)
 			{
+				Rigidbody projectileRigid = projectileData.projectilePool[i].GetComponent<Rigidbody>();
+
 				projectileData.projectilePool[i].transform.position = projectileData.bulletSpawn.transform.GetChild(0).position;
 				projectileData.projectilePool[i].transform.rotation = projectileData.bulletSpawn.transform.GetChild(0).rotation * projectileData.bulletPrefab.transform.rotation;
 
-				projectileData.projectilePool[i].GetComponent<Rigidbody>().velocity = Vector3.zero;
-				projectileData.projectilePool[i].GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
-				projectileData.projectilePool[i].GetComponent<Rigidbody>().velocity = projectileData.bulletSpawn.transform.forward * projectileData.bulletSpeed;
+				projectileRigid.velocity = Vector3.zero;
+				projectileRigid.angularVelocity = Vector3.zero;
+				projectileRigid.velocity = projectileData.bulletSpawn.transform.forward * projectileData.bulletSpeed;
 
 				projectileData.projectilePool[i].SetActive(true);
 				break;
