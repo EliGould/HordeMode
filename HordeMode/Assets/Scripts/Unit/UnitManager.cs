@@ -466,7 +466,6 @@ public sealed partial class UnitManager : UnitManagerBase
 
 		if(unit.parts.weaponPrefabs.Count > 0)
 		{
-			int tempWeaponIndex = unit.manState.weaponData.weaponIndex;
 			List<Weapon> tempWeaponPfs = unit.parts.weaponPrefabs;
 			unit.manState.weaponData.weapons = new List<Weapon>(tempWeaponPfs.Count);
 
@@ -476,7 +475,7 @@ public sealed partial class UnitManager : UnitManagerBase
 				unit.manState.weaponData.weapons.Add(tempWeapon);
 			}
 
-			SetWeapon(unit, unit.manState.weaponData.weapons[tempWeaponIndex]);
+			SetWeapon(unit, unit.manState.weaponData.weapons[unit.manState.weaponData.weaponIndex]);
 		}
 	}
 
