@@ -215,8 +215,6 @@ public sealed class Weapon : SafeBehaviour
 				break;
 			}
 		}
-
-
 	}
 
 	public void DamageByProjectile(Collision coll, int damageFactor)

@@ -132,7 +132,7 @@ MonoBehaviour:
   miscData:
     impactForce: 10
     knockbackForce: 0.5
-    cooldown: 0.2
+    cooldown: 0.08
   rayData:
     origin:
       kind: 0
@@ -151,9 +151,9 @@ MonoBehaviour:
     bulletPrefab: {fileID: 1545460810570122, guid: 7efed43ab2c2c5f448dec4a14f852e8f,
       type: 2}
     bulletSpawn: {fileID: 1364572304505746}
-    bulletSpeed: 30
+    bulletSpeed: 50
     useGravity: 0
-    pooledAmount: 100
+    pooledAmount: 30
     projectilePool: []
 --- !u!114 &114997779247933352
 MonoBehaviour:

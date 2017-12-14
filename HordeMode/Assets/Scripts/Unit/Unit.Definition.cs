@@ -93,9 +93,7 @@ public sealed partial class Unit : UnitBase
 		[SerializeField]
 		public BodyParts bodyParts;
 		[SerializeField]
-		public List<Weapon> weapons;
-		[SerializeField]
-		public int weaponIndex;
+		public List<Weapon> weaponPrefabs;
 
 		[NonSerialized]
 		public Transform rigidRoot;

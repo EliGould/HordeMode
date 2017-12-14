@@ -126,7 +126,7 @@ public sealed class BodyParts : MonoBehaviour
 
 			data.detached.rigid = data.detached.rootBone.gameObject.AddComponent<Rigidbody>();
 
-			// Detached arts needs to be in root, since parts are childed under eachother
+			// Detached parts needs to be in root, since parts are childed under eachother
 			data.detachedParent = rigidRend.transform.parent;
 			data.detached.rootBone.parent = data.detachedParent;
 

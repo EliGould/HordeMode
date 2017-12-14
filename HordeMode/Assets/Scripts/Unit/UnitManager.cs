@@ -203,11 +203,14 @@ public sealed partial class UnitManager : UnitManagerBase
 
 	public void SwitchWeapon(Unit unit)
 	{
-		unit.parts.weapons[unit.parts.weaponIndex].gameObject.SetActive(false);
-		unit.parts.weaponIndex = (unit.parts.weaponIndex + 1) % unit.parts.weapons.Count;
-		unit.parts.weapons[unit.parts.weaponIndex].gameObject.SetActive(true);
+		int oldIndex = unit.manState.weaponData.weaponIndex;
+		unit.manState.weaponData.weaponIndex = (unit.manState.weaponData.weaponIndex + 1) % unit.manState.weaponData.weapons.Count;
+		int newIndex = unit.manState.weaponData.weaponIndex;
 
-		SetWeapon(unit, unit.parts.weapons[unit.parts.weaponIndex]);
+		unit.manState.weaponData.weapons[oldIndex].gameObject.SetActive(false);
+		unit.manState.weaponData.weapons[newIndex].gameObject.SetActive(true);
+
+		SetWeapon(unit, unit.manState.weaponData.weapons[unit.manState.weaponData.weaponIndex]);
 	}
 
 	#endregion // Interface
@@ -461,14 +464,19 @@ public sealed partial class UnitManager : UnitManagerBase
 			}
 		}
 
-		if(unit.parts.weapons.Count != 0)
+		if(unit.parts.weaponPrefabs.Count > 0)
 		{
-			for(int i = 0; i < unit.parts.weapons.Count; i++)
+			int tempWeaponIndex = unit.manState.weaponData.weaponIndex;
+			List<Weapon> tempWeaponPfs = unit.parts.weaponPrefabs;
+			unit.manState.weaponData.weapons = new List<Weapon>(tempWeaponPfs.Count);
+
+			for(int i = 0; i < tempWeaponPfs.Count; i++)
 			{
-				unit.parts.weapons[i] = Instantiate(unit.parts.weapons[i]);
+				Weapon tempWeapon = Instantiate(tempWeaponPfs[i]);
+				unit.manState.weaponData.weapons.Add(tempWeapon);
 			}
 
-			SetWeapon(unit, unit.parts.weapons[unit.parts.weaponIndex]);
+			SetWeapon(unit, unit.manState.weaponData.weapons[tempWeaponIndex]);
 		}
 	}
 

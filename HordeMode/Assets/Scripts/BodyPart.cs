@@ -25,6 +25,8 @@ public sealed class BodyPart : MonoBehaviour
 	public SkinnedMeshRenderer visualRend;
 	public Transform visualRootBone;
 	public Collider visualColl;
+
+
 	#endregion // Fields
 
 	#region Properties

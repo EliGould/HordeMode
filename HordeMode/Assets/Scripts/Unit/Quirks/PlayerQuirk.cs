@@ -49,7 +49,7 @@ public sealed class PlayerQuirk : UnitQuirk
 		momentary.moveInput = inputMan.GetAction(input, inputData.move).axis2D;
 		momentary.aimInput = inputMan.GetAction(input, inputData.aim).axis2D;
 		momentary.jumpInput = inputMan.GetAction(input, inputData.jump).buttonDown;
-		momentary.fireInput = inputMan.GetAction(input, inputData.fire).buttonDown;
+		momentary.fireInput = inputMan.GetAction(input, inputData.fire).buttonHeld;
 		momentary.weaponChangeInput = inputMan.GetAction(input, inputData.changeWeapon).buttonDown;
 	}
 	#endregion // Methods
