@@ -15,6 +15,10 @@ public sealed class Weapon : SafeBehaviour
 	{
 		[SerializeField]
 		public int damage = 1;
+		[SerializeField]
+		public float impactForce = 10.0f;
+		[SerializeField]
+		public float knockbackForce = 0.5f;
 	}
 
 	[Serializable]
@@ -42,16 +46,11 @@ public sealed class Weapon : SafeBehaviour
 		[SerializeField]
 		public int pooledAmount;
 		public List<GameObject> projectilePool;
-
 	}
 
 	[Serializable]
 	public class MiscData
 	{
-		[SerializeField]
-		public float impactForce = 10.0f;
-		[SerializeField]
-		public float knockbackForce = 0.5f;
 		[SerializeField]
 		public float cooldown = 0.0f;
 	}
@@ -103,10 +102,11 @@ public sealed class Weapon : SafeBehaviour
 			for(int i = 0; i < projectileData.pooledAmount; i++)
 			{
 				GameObject bullet = Instantiate(projectileData.bulletPrefab, projectileData.bulletSpawn.transform.GetChild(0).position, projectileData.bulletPrefab.transform.rotation);
-				bullet.GetComponent<Projectile>().SetWeapon(this);
 				bullet.GetComponent<Rigidbody>().useGravity = projectileData.useGravity;
-
 				bullet.SetActive(false);
+
+				bullet.GetComponent<Projectile>().setDamageData(damageData.damage, damageData.impactForce,damageData.knockbackForce);
+
 				projectileData.projectilePool.Add(bullet);
 			}
 		}
@@ -175,7 +175,7 @@ public sealed class Weapon : SafeBehaviour
 			{
 				Debug.Log(ray.direction);
 				attachedRigid.AddForce(
-					ray.direction * miscData.impactForce,
+					ray.direction * damageData.impactForce,
 					ForceMode.Impulse
 				);
 			}
@@ -183,10 +183,10 @@ public sealed class Weapon : SafeBehaviour
 			UnitManager.instance.DamageUnit(
 				hitInfo.collider,
 				damageData.damage,
+				damageData.knockbackForce,
+				damageData.knockbackForce,
 				ray.direction,
-				hitInfo.point,
-				attacker: wielder,
-				weapon: this
+				hitInfo.point
 			);
 		}
 
@@ -218,27 +218,6 @@ public sealed class Weapon : SafeBehaviour
 			}
 		}
 	}
-
-	public void DamageByProjectile(Collision coll, int damageFactor)
-	{
-		Vector3 direction = Vector3.Normalize(coll.collider.transform.position - wielder.transform.position);
-
-		Vector3 point = coll.contacts[0].point;
-
-		UE.Debug.DrawLine(coll.collider.transform.position, wielder.transform.position, Color.blue);
-
-
-		UnitManager.instance.DamageUnit(
-				coll.collider,
-				damageData.damage * damageFactor,
-				direction,
-				point,
-				attacker: wielder,
-				weapon: this
-			);
-
-	}
-
 
 	IEnumerator CooldownRoutine()
 	{

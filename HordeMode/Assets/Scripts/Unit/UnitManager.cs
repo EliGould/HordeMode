@@ -116,10 +116,10 @@ public sealed partial class UnitManager : UnitManagerBase
 	public void DamageUnit(
 		Collider hitCollider,
 		int damage,
+		float knockbackForce,
+		float impactForce,
 		Vector3 direction,
-		Vector3 point,
-		Unit attacker = null,
-		Weapon weapon = null
+		Vector3 point
 	)
 	{
 		Unit unit = collToUnit.FindOrNull(hitCollider);
@@ -135,14 +135,11 @@ public sealed partial class UnitManager : UnitManagerBase
 		int newHp = Mathf.Max(0, partData.hitPoints - damage);
 		partData.hitPoints = newHp;
 
-		Dbg.Log("{0} hit {1} in {2} for {3} damage!", GarbageCache.GetName(attacker), GarbageCache.GetName(unit), partData.kind, damage);
+		Dbg.Log("{0} in {1} for {2} damage!", GarbageCache.GetName(unit), partData.kind, damage);
 
 		if(unit.parts.navMeshAgent != null)
 		{
-			if(direction != Vector3.zero && weapon != null)
-			{
-				unit.parts.navMeshAgent.Move(direction * weapon.miscData.knockbackForce);
-			}
+			unit.parts.navMeshAgent.Move(direction * knockbackForce);
 		}
 
 		if(newHp == 0)
@@ -150,7 +147,7 @@ public sealed partial class UnitManager : UnitManagerBase
 			if(partDef.lifeCritical)
 			{
 				Vector3 killPoint = point;
-				float? killForce = weapon == null ? null : (float?)weapon.miscData.impactForce;
+				float? killForce = impactForce;
 				KillUnit(unit, killPoint, killForce);
 			}
 			else
@@ -159,7 +156,7 @@ public sealed partial class UnitManager : UnitManagerBase
 
 				if(direction != Vector3.zero)
 				{
-					worldForce = direction * weapon.miscData.impactForce;
+					worldForce = direction * impactForce;
 				}
 
 				bodyParts.Detach(partData, worldForce);

@@ -6,55 +6,69 @@ using System.Collections.Generic;
 
 public sealed class Projectile : MonoBehaviour
 {
-    #region Types
-    #region Serialized Types
+	#region Types
+	#region Serialized Types
 #pragma warning disable 0649
 #pragma warning restore 0649
-    #endregion // Serialized Types
-    #endregion // Types
+	#endregion // Serialized Types
+	#endregion // Types
 
-    #region Fields
-    #region Serialized Fields
+	#region Fields
+
+	int damage;
+	float impactForce;
+	float knockbackForce;
+
+	#region Serialized Fields
 #pragma warning disable 0649
 
-    [SerializeField]
-    public int damageFactor;
-
-    Weapon weapon;
-
 #pragma warning restore 0649
-    #endregion // Serialized Fields
-    #endregion // Fields
+	#endregion // Serialized Fields
+	#endregion // Fields
 
-    #region Properties
-    #endregion // Properties
+	#region Properties
+	#endregion // Properties
 
-    #region Methods
+	#region Methods
 
-    void OnEnable()
-    {
-        Invoke("DestroyProjectile", time: 2.0f);
-    }
+	public void setDamageData(int damage, float impactForce, float knockbackForce)
+	{
+		this.damage = damage;
+		this.impactForce = impactForce;
+		this.knockbackForce = knockbackForce;
+	}
 
-    void DestroyProjectile()
-    {
-        gameObject.SetActive(false);
-    }
+	void OnEnable()
+	{
+		Invoke("DestroyProjectile", time: 2.0f);
+	}
 
-    private void OnDisable()
-    {
-        CancelInvoke();
-    }
+	void DestroyProjectile()
+	{
+		gameObject.SetActive(false);
+	}
 
-    void OnCollisionEnter(Collision collision)
-    {
-        weapon.DamageByProjectile(collision, damageFactor);
-        gameObject.SetActive(false);
-    }
+	private void OnDisable()
+	{
+		CancelInvoke();
+	}
 
-    public void SetWeapon(Weapon weapon)
-    {
-        this.weapon = weapon;
-    }
-    #endregion // Methods
+	void OnCollisionEnter(Collision collision)
+	{
+		Vector3 direction = Vector3.Normalize(collision.contacts[0].thisCollider.gameObject.transform.position - collision.contacts[0].otherCollider.gameObject.transform.position);
+		Vector3 point = collision.contacts[0].point;
+
+		UnitManager.instance.DamageUnit(
+				collision.collider,
+				damage,
+				knockbackForce,
+				impactForce,
+				direction,
+				point
+			);
+
+		gameObject.SetActive(false);
+	}
+
+	#endregion // Methods
 }
