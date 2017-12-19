@@ -33,22 +33,6 @@ public sealed class Weapon : SafeBehaviour
 	}
 
 	[Serializable]
-	class ProjectileData
-	{
-		[SerializeField]
-		public GameObject bulletPrefab;
-		[SerializeField]
-		public GameObject bulletSpawn;
-		[SerializeField]
-		public float bulletSpeed;
-		[SerializeField]
-		public bool useGravity;
-		[SerializeField]
-		public int pooledAmount;
-		public List<GameObject> projectilePool;
-	}
-
-	[Serializable]
 	public class MiscData
 	{
 		[SerializeField]
@@ -76,7 +60,7 @@ public sealed class Weapon : SafeBehaviour
 	[SerializeField, EnumRestrict("kind", Kind.Ray)]
 	RayData rayData;
 	[SerializeField, EnumRestrict("kind", Kind.Projectile)]
-	ProjectileData projectileData;
+	public ProjectileDefinition projectileDef;
 #pragma warning restore 0649
 	#endregion // Serialized Fields
 
@@ -98,16 +82,16 @@ public sealed class Weapon : SafeBehaviour
 	{
 		if(kind == Kind.Projectile)
 		{
-			projectileData.projectilePool = new List<GameObject>();
-			for(int i = 0; i < projectileData.pooledAmount; i++)
+			projectileDef.projectileData.projectilePool = new List<GameObject>();
+			for(int i = 0; i < projectileDef.projectileData.pooledAmount; i++)
 			{
-				GameObject bullet = Instantiate(projectileData.bulletPrefab, projectileData.bulletSpawn.transform.GetChild(0).position, projectileData.bulletPrefab.transform.rotation);
-				bullet.GetComponent<Rigidbody>().useGravity = projectileData.useGravity;
+				GameObject bullet = Instantiate(projectileDef.projectileData.bulletPrefab, projectileDef.projectileData.bulletSpawn.transform.GetChild(0).position, projectileDef.projectileData.bulletPrefab.transform.rotation);
+				bullet.GetComponent<Rigidbody>().useGravity = projectileDef.projectileData.useGravity;
 				bullet.SetActive(false);
 
-				bullet.GetComponent<Projectile>().setDamageData(damageData.damage, damageData.impactForce,damageData.knockbackForce);
+				bullet.GetComponent<Projectile>().SetDamageData(damageData.damage, damageData.impactForce, damageData.knockbackForce);
 
-				projectileData.projectilePool.Add(bullet);
+				projectileDef.projectileData.projectilePool.Add(bullet);
 			}
 		}
 
@@ -200,20 +184,21 @@ public sealed class Weapon : SafeBehaviour
 
 	void FireProjectile()
 	{
-		for(int i = 0; i < projectileData.projectilePool.Count; i++)
+		for(int i = 0; i < projectileDef.projectileData.projectilePool.Count; i++)
 		{
-			if(!projectileData.projectilePool[i].activeInHierarchy)
+			if(!projectileDef.projectileData.projectilePool[i].activeInHierarchy)
 			{
-				Rigidbody projectileRigid = projectileData.projectilePool[i].GetComponent<Rigidbody>();
-
-				projectileData.projectilePool[i].transform.position = projectileData.bulletSpawn.transform.GetChild(0).position;
-				projectileData.projectilePool[i].transform.rotation = projectileData.bulletSpawn.transform.GetChild(0).rotation * projectileData.bulletPrefab.transform.rotation;
+				Rigidbody projectileRigid = projectileDef.projectileData.projectilePool[i].GetComponent<Rigidbody>();
 
 				projectileRigid.velocity = Vector3.zero;
 				projectileRigid.angularVelocity = Vector3.zero;
-				projectileRigid.velocity = projectileData.bulletSpawn.transform.forward * projectileData.bulletSpeed;
 
-				projectileData.projectilePool[i].SetActive(true);
+				projectileDef.projectileData.projectilePool[i].transform.position = this.transform.GetChild(0).position;
+				projectileDef.projectileData.projectilePool[i].transform.rotation = this.transform.rotation * projectileDef.projectileData.bulletPrefab.transform.rotation;
+
+				projectileRigid.velocity = this.transform.forward * projectileDef.projectileData.bulletSpeed;
+
+				projectileDef.projectileData.projectilePool[i].SetActive(true);
 				break;
 			}
 		}

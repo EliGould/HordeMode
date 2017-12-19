@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d99dd198e2ba3764294990c1067a70dd, type: 3}
+  m_Name: RocketLauncherDef
+  m_EditorClassIdentifier: 
+  projectileData:
+    bulletPrefab: {fileID: 1751155100108014, guid: 5d5596d050e1bea4abe8a41a98b4f509,
+      type: 2}
+    bulletSpawn: {fileID: 1341045595444774, guid: ea7f27e66fbf2d9449195a622197bf84,
+      type: 2}
+    bulletSpeed: 30
+    useGravity: 1
+    pooledAmount: 10
+    projectilePool:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}

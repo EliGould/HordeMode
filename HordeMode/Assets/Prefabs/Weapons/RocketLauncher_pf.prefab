@@ -163,9 +163,9 @@ MonoBehaviour:
   kind: 1
   damageData:
     damage: 5
-  miscData:
     impactForce: 10
-    knockbackForce: 2
+    knockbackForce: 0.5
+  miscData:
     cooldown: 0.2
   rayData:
     origin:
@@ -181,11 +181,4 @@ MonoBehaviour:
     hitLayers:
       serializedVersion: 2
       m_Bits: 768
-  projectileData:
-    bulletPrefab: {fileID: 1751155100108014, guid: 5d5596d050e1bea4abe8a41a98b4f509,
-      type: 2}
-    bulletSpawn: {fileID: 1341045595444774}
-    bulletSpeed: 30
-    useGravity: 1
-    pooledAmount: 10
-    projectilePool: []
+  projectileDef: {fileID: 11400000, guid: d6289e4457f517a489006baa4a26fd57, type: 2}

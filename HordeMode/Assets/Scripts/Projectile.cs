@@ -31,7 +31,7 @@ public sealed class Projectile : MonoBehaviour
 
 	#region Methods
 
-	public void setDamageData(int damage, float impactForce, float knockbackForce)
+	public void SetDamageData(int damage, float impactForce, float knockbackForce)
 	{
 		this.damage = damage;
 		this.impactForce = impactForce;
@@ -55,7 +55,10 @@ public sealed class Projectile : MonoBehaviour
 
 	void OnCollisionEnter(Collision collision)
 	{
-		Vector3 direction = Vector3.Normalize(collision.contacts[0].thisCollider.gameObject.transform.position - collision.contacts[0].otherCollider.gameObject.transform.position);
+		Vector3 positionOther = collision.contacts[0].otherCollider.gameObject.transform.position;
+		Vector3 positionThis = collision.contacts[0].thisCollider.gameObject.transform.position;
+		Vector3 direction = Vector3.Normalize(positionThis - positionOther);
+
 		Vector3 point = collision.contacts[0].point;
 
 		UnitManager.instance.DamageUnit(
